@@ -16,7 +16,7 @@ public class DashBoard extends javax.swing.JFrame {
      */
     public DashBoard() {
         initComponents();
-        setSize(300,300);
+        setSize(1000,600);
     }
     
     /**
