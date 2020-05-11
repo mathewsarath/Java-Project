@@ -19,7 +19,11 @@ is divided into following sections:
   - cleanup
 
         -->
+<<<<<<< HEAD:HospitalManagement/nbproject/build-impl.xml
 <project xmlns:if="ant:if" xmlns:j2seproject1="http://www.netbeans.org/ns/j2se-project/1" xmlns:j2seproject3="http://www.netbeans.org/ns/j2se-project/3" xmlns:jaxrpc="http://www.netbeans.org/ns/j2se-project/jax-rpc" xmlns:unless="ant:unless" basedir=".." default="default" name="HospitalManagement-impl">
+=======
+<project xmlns:if="ant:if" xmlns:j2seproject1="http://www.netbeans.org/ns/j2se-project/1" xmlns:j2seproject3="http://www.netbeans.org/ns/j2se-project/3" xmlns:jaxrpc="http://www.netbeans.org/ns/j2se-project/jax-rpc" xmlns:unless="ant:unless" basedir=".." default="default" name="HospitalMangement-impl">
+>>>>>>> 940847e64158f03590d42dd803ad2ef56c4dc994:HospitalMangement/nbproject/build-impl.xml
     <fail message="Please build using Ant 1.8.0 or higher.">
         <condition>
             <not>
