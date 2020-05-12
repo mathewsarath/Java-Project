@@ -116,6 +116,11 @@ public class DashBoard extends javax.swing.JFrame {
                 DoctorMouseClicked(evt);
             }
         });
+        Doctor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DoctorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -170,6 +175,11 @@ public class DashBoard extends javax.swing.JFrame {
         Pharmasisit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 PharmasisitMouseClicked(evt);
+            }
+        });
+        Pharmasisit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PharmasisitActionPerformed(evt);
             }
         });
 
@@ -321,6 +331,7 @@ public class DashBoard extends javax.swing.JFrame {
         login.setVisible(true);
         login.pack();
         login.setLocationRelativeTo(null);
+        login.nameSet(user);
         login.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
     }
     private void DoctorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DoctorMouseClicked
@@ -351,6 +362,14 @@ public class DashBoard extends javax.swing.JFrame {
         // TODO add your handling code here:
         CreateLoginPage("reception");
     }//GEN-LAST:event_ReceptionMouseClicked
+
+    private void PharmasisitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PharmasisitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PharmasisitActionPerformed
+
+    private void DoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DoctorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DoctorActionPerformed
 
     /**
      * @param args the command line arguments

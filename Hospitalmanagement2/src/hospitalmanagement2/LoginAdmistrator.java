@@ -17,6 +17,11 @@ public class LoginAdmistrator extends javax.swing.JFrame {
     public LoginAdmistrator() {
         initComponents();
     }
+    
+    public void nameSet(String str){
+        str="SIGN IN-"+str.toUpperCase();
+        Label_Login.setText(str);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -33,6 +38,7 @@ public class LoginAdmistrator extends javax.swing.JFrame {
         jTextField7 = new javax.swing.JTextField();
         jPasswordField4 = new javax.swing.JPasswordField();
         jButton8 = new javax.swing.JButton();
+        Label_Login = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(89, 243, 29));
@@ -66,6 +72,11 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             }
         });
 
+        Label_Login.setBackground(new java.awt.Color(146, 254, 17));
+        Label_Login.setFont(new java.awt.Font("Serif", 1, 24)); // NOI18N
+        Label_Login.setForeground(new java.awt.Color(0, 0, 0));
+        Label_Login.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -85,13 +96,18 @@ public class LoginAdmistrator extends javax.swing.JFrame {
                                 .addComponent(jPasswordField4, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(224, 224, 224)
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(108, 108, 108)
+                        .addComponent(Label_Login, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(112, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(164, Short.MAX_VALUE)
+                .addContainerGap(59, Short.MAX_VALUE)
+                .addComponent(Label_Login, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -155,6 +171,7 @@ public class LoginAdmistrator extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Label_Login;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
