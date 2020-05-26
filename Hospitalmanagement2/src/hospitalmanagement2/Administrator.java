@@ -58,7 +58,7 @@ public class Administrator extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jPanel2.setBackground(new java.awt.Color(1, 229, 88));
+        jPanel2.setBackground(new java.awt.Color(26, 188, 156));
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(72, 72, 72), new java.awt.Color(1, 1, 1), new java.awt.Color(223, 212, 212), new java.awt.Color(168, 165, 165)));
 
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
