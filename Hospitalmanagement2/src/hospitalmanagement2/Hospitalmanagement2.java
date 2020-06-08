@@ -5,6 +5,7 @@
  */
 package hospitalmanagement2;
 import Frames.*;
+import java.sql.*;
 
 /**
  *
@@ -45,5 +46,12 @@ public class Hospitalmanagement2 {
             }
         });
     }
-    
-}
+   /* try{
+       Connection conn=DocConnect.connect();
+       System.out.println("Connected");
+    }
+    catch(SQLException e){
+        System.out.println(e);
+    }
+    */}
+

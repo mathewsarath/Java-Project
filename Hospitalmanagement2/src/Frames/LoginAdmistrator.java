@@ -12,12 +12,26 @@ import hospitalmanagement2.*;
  * @author tharikh
  */
 public class LoginAdmistrator extends javax.swing.JFrame {
-
+    private String userName,loginName;
+    private char[] password;
     /**
      * Creates new form LoginAdmistrator
+     *
      */
-    public LoginAdmistrator() {
+    void getUName(String userName){
+        this.userName=userName;
+    }
+    void getPassword(char[] password){
+        this.password=password;
+    }
+    public LoginAdmistrator() {//for testing purpose need to delete before finalising
         initComponents();
+
+    }
+    public LoginAdmistrator(String loginName){//To call from dashboard
+                this();
+                this.loginName=loginName;
+                
     }
     
     public void nameSet(String str){
@@ -37,9 +51,9 @@ public class LoginAdmistrator extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
-        jPasswordField4 = new javax.swing.JPasswordField();
-        jButton8 = new javax.swing.JButton();
+        uName = new javax.swing.JTextField();
+        pWord = new javax.swing.JPasswordField();
+        submitButton = new javax.swing.JButton();
         Label_Login = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -58,19 +72,24 @@ public class LoginAdmistrator extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Password:");
 
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+        uName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
+                uNameActionPerformed(evt);
             }
         });
 
-        jButton8.setBackground(new java.awt.Color(73, 255, 0));
-        jButton8.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
-        jButton8.setForeground(new java.awt.Color(0, 0, 0));
-        jButton8.setText("SUBMIT");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        submitButton.setBackground(new java.awt.Color(73, 255, 0));
+        submitButton.setFont(new java.awt.Font("Serif", 0, 18)); // NOI18N
+        submitButton.setForeground(new java.awt.Color(0, 0, 0));
+        submitButton.setText("SUBMIT");
+        submitButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                submitButtonMouseClicked(evt);
+            }
+        });
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                submitButtonActionPerformed(evt);
             }
         });
 
@@ -91,14 +110,14 @@ public class LoginAdmistrator extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(uName, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(28, 28, 28)
-                                .addComponent(jPasswordField4, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(pWord, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(224, 224, 224)
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(108, 108, 108)
                         .addComponent(Label_Login, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -112,13 +131,13 @@ public class LoginAdmistrator extends javax.swing.JFrame {
                 .addGap(49, 49, 49)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(uName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPasswordField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pWord, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(61, 61, 61)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(179, 179, 179))
         );
 
@@ -128,13 +147,20 @@ public class LoginAdmistrator extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
+    private void uNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7ActionPerformed
+    }//GEN-LAST:event_uNameActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
+    }//GEN-LAST:event_submitButtonActionPerformed
+
+    private void submitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_submitButtonMouseClicked
+        // TODO add your handling code here:
+        getUName(uName.getText());
+        getPassword(pWord.getPassword());
+        System.out.println("name= "+userName+"\npassword= "+new String(password)+"\nlogin name: "+loginName);
+    }//GEN-LAST:event_submitButtonMouseClicked
 
     /**
      * @param args the command line arguments
@@ -176,11 +202,11 @@ public class LoginAdmistrator extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Label_Login;
-    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordField4;
-    private javax.swing.JTextField jTextField7;
+    private javax.swing.JPasswordField pWord;
+    private javax.swing.JButton submitButton;
+    private javax.swing.JTextField uName;
     // End of variables declaration//GEN-END:variables
 }
