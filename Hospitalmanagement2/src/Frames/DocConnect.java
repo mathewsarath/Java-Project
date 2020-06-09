@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hospitalmanagement2;
+package Frames;
 import java.sql.*;
 /**
  *
@@ -11,12 +11,15 @@ import java.sql.*;
  */
 public class DocConnect {
     Connection conn = null;
-
-     static Connection connect() throws SQLException
+    private static String url = "jdbc:mysql://localhost:";
+    private static String user,password;
+    public DocConnect(String url,String portNum,String user,String password){
+        this.url=this.url+portNum+"/"+url;
+        this.user=user;
+        this.password=password;
+    }
+   static Connection connect() throws SQLException
     {
-     String url       = "jdbc:mysql://localhost:3307/Doc";
-     String user      = "root";
-     String password  = "";
      Connection a= DriverManager.getConnection(url, user, password);
      return a;
     }
