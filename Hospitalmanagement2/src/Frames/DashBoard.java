@@ -386,6 +386,16 @@ public class DashBoard extends javax.swing.JFrame {
 
     private void AdminButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AdminButtonMouseClicked
         // TODO add your handling code here:
+                try{
+        AdminPage admin = new AdminPage();
+        admin.setVisible(true);
+        admin.pack();
+        admin.setLocationRelativeTo(null);
+        admin.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        }
+        catch(Exception e){
+            System.out.print("An error occured while creating new page");
+        }
         
     }//GEN-LAST:event_AdminButtonMouseClicked
 

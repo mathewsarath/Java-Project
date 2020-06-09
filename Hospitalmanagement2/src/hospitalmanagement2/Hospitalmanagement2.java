@@ -45,13 +45,14 @@ public class Hospitalmanagement2 {
                 new DashBoard().setVisible(true);
             }
         });
-    }
-   /* try{
+    
+    try{
        Connection conn=DocConnect.connect();
        System.out.println("Connected");
     }
     catch(SQLException e){
         System.out.println(e);
     }
-    */}
-
+    
+    }
+}
