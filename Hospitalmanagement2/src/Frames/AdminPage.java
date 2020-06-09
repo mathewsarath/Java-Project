@@ -50,6 +50,11 @@ public class AdminPage extends javax.swing.JFrame {
         MngNurse.setText("Manage Nurses");
 
         MngDataBase.setText("Manage Database");
+        MngDataBase.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MngDataBaseMouseClicked(evt);
+            }
+        });
 
         MngCrisis.setText("Manage Crisis");
 
@@ -131,6 +136,20 @@ public class AdminPage extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void MngDataBaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MngDataBaseMouseClicked
+        // TODO add your handling code here:
+        try{
+        ManageDatabase db = new ManageDatabase();
+        db.setVisible(true);
+        db.pack();
+        db.setLocationRelativeTo(null);
+        db.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        }
+        catch(Exception e){
+            System.out.print("An error occured while creating new page");
+        }
+    }//GEN-LAST:event_MngDataBaseMouseClicked
 
     /**
      * @param args the command line arguments
