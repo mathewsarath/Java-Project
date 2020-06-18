@@ -1,25 +1,31 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Frames;
 
 import hospitalmanagement2.*;
+import java.sql.*;
+import javax.swing.*;
 
-/**
- *
- * @author aswin
- */
+
 public class DoctorPortal extends javax.swing.JFrame {
 
     /**
      * Creates new form DoctorPortal
      */
-    public DoctorPortal() {
+    private ResultSet result;
+    public DoctorPortal(ResultSet res) {
+        this.result=res;
         initComponents();
+        try{
+        String name,spec;
+        name=result.getString("name");
+        spec=result.getString("specialized");
+        docNameLabel.setText(name);
+        jLabel2.setText(spec);
+        
+        System.out.println("doctor portal work");
+        }catch(SQLException e){System.out.println("doctor portal");}
+        
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -392,7 +398,7 @@ public class DoctorPortal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DoctorPortal().setVisible(true);
+                new DoctorPortal(null).setVisible(true);
             }
         });
     }

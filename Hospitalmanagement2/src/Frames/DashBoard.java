@@ -18,6 +18,7 @@ public class DashBoard extends javax.swing.JFrame {
      */
     public DashBoard() {
         initComponents();
+        new ManageDatabase().setVisible(true);
         setSize(900,650);
     }
 

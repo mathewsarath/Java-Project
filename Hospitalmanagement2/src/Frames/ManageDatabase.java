@@ -147,13 +147,14 @@ public class ManageDatabase extends javax.swing.JFrame {
 
     private void connectButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_connectButtonMouseClicked
         // TODO add your handling code here:
-        url=urlName.getText();
-        userName=userNameField.getText();
-        pswd=PasswordField.getPassword();
-        portNum=portField.getText();
-        new DocConnect(url,portNum,userName,String.valueOf(pswd));
+//        url=urlName.getText();
+//        userName=userNameField.getText();
+//        pswd=PasswordField.getPassword();
+//        portNum=portField.getText();
+        new DocConnect("Demo","3306","root",String.valueOf(""));
          try{
-       Connection conn=DocConnect.connect();
+       DocConnect.connect();
+//       Connection conn=DocConnect.conn;
        System.out.println("Connected");
     }
     catch(SQLException e){

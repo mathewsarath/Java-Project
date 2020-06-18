@@ -10,7 +10,7 @@ import java.sql.*;
  * @author aswin
  */
 public class DocConnect {
-    Connection conn = null;
+    static Connection conn = null;
     private static String url = "jdbc:mysql://localhost:";
     private static String user,password;
     public DocConnect(String url,String portNum,String user,String password){
@@ -18,10 +18,9 @@ public class DocConnect {
         this.user=user;
         this.password=password;
     }
-   static Connection connect() throws SQLException
+   static void connect() throws SQLException
     {
-     Connection a= DriverManager.getConnection(url, user, password);
-     return a;
+     conn= DriverManager.getConnection(url, user, password);
     }
 
 }

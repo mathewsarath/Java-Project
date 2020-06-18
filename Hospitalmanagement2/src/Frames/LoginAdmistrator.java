@@ -5,37 +5,43 @@
  */
 package Frames;
 
-import hospitalmanagement2.*;
+//import hospitalmanagement2.*;
+import java.sql.*;
 
 /**
  *
  * @author tharikh
  */
 public class LoginAdmistrator extends javax.swing.JFrame {
-    private String userName,loginName;
+
+    private String userName, loginName;
     private char[] password;
+
     /**
      * Creates new form LoginAdmistrator
      *
      */
-    void getUName(String userName){
-        this.userName=userName;
+    void getUName(String userName) {
+        this.userName = userName;
     }
-    void getPassword(char[] password){
-        this.password=password;
+
+    void getPassword(char[] password) {
+        this.password = password;
     }
+
     public LoginAdmistrator() {//for testing purpose need to delete before finalising
         initComponents();
 
     }
-    public LoginAdmistrator(String loginName){//To call from dashboard
-                this();
-                this.loginName=loginName;
-                
+
+    public LoginAdmistrator(String loginName) {//To call from dashboard
+        this();
+        this.loginName = loginName;
+
     }
-    
-    public void nameSet(String str){
-        str="SIGN IN-"+str.toUpperCase();
+
+    public void nameSet(String str) {
+        str = "SIGN IN-" + str.toUpperCase();
         Label_Login.setText(str);
     }
 
@@ -159,8 +165,35 @@ public class LoginAdmistrator extends javax.swing.JFrame {
         // TODO add your handling code here:
         getUName(uName.getText());
         getPassword(pWord.getPassword());
-        System.out.println("name= "+userName+"\npassword= "+new String(password)+"\nlogin name: "+loginName);
+        System.out.println("name= " + userName + "\npassword= " + new String(password) + "\nlogin name: " + loginName);
+        loginDatabase();
     }//GEN-LAST:event_submitButtonMouseClicked
+    private void loginDatabase() {
+        String query = "select * from " + loginName + " where Did=? and password=?";
+        Connection con = DocConnect.conn;
+        try {
+            PreparedStatement prepare = con.prepareStatement(query);
+            prepare.setInt(1, Integer.parseInt(userName));
+            prepare.setString(2, new String(password));
+            ResultSet res = prepare.executeQuery();
+            System.out.println(res);
+            if (res.next()) {
+                System.out.println(res);
+                gotoScreen(res);
+            } else {
+                System.out.println("nope");
+            }
+        } catch (SQLException e) {
+            System.out.print("error aahtta kutta");
+        }
+
+    }
+
+    private void gotoScreen(ResultSet res) {
+        if (loginName.equals("doctor")) {
+            new DoctorPortal(res).setVisible(true);
+        }
+    }
 
     /**
      * @param args the command line arguments
