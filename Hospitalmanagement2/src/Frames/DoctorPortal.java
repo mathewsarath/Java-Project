@@ -11,7 +11,8 @@ public class DoctorPortal extends javax.swing.JFrame {
     /**
      * Creates new form DoctorPortal
      */
-    private ResultSet result;
+    private ResultSet result,pres;
+    private int id;
     public DoctorPortal(ResultSet res) {
         this.result=res;
         initComponents();
@@ -19,12 +20,37 @@ public class DoctorPortal extends javax.swing.JFrame {
         String name,spec;
         name=result.getString("name");
         spec=result.getString("specialized");
-        docNameLabel.setText(name);
-        jLabel2.setText(spec);
-        
+        this.id=result.getInt("Did");
+        docNameLabel.setText(name.toUpperCase());
+        jLabel2.setText(spec.toUpperCase());
+        currPatient();
         System.out.println("doctor portal work");
         }catch(SQLException e){System.out.println("doctor portal");}
         
+    }
+    private void msgbox(String s){
+   JOptionPane.showMessageDialog(null, s);
+}
+    private void currPatient()throws SQLException{
+        String query="SELECT * from Patient JOIN current where Patient.pid=current.pid";
+        Connection con=DocConnect.conn;
+        Statement stm=con.createStatement();
+        ResultSet res=stm.executeQuery(query);
+        pres=res;
+        nextAvail();
+    }
+    void nextAvail()throws SQLException{
+        if(pres.next() && pres.getInt("doctor_id") == this.id){
+            nameDisplayLabel.setText(pres.getString("name"));
+            sexDisplayLabel.setText(pres.getString("sex"));
+            heightDisplayLabel.setText(String.valueOf(pres.getFloat("height")));
+            weightDisplayLabel.setText(String.valueOf(pres.getFloat("weight")));
+            ageDisplay.setText(String.valueOf(pres.getInt("age")));
+        }
+        else{
+            msgbox("No Patience Currently");
+            repaint();
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
