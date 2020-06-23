@@ -1,47 +1,51 @@
-
 package Frames;
 
 import hospitalmanagement2.*;
 import java.sql.*;
 import javax.swing.*;
 
-
 public class DoctorPortal extends javax.swing.JFrame {
 
     /**
      * Creates new form DoctorPortal
      */
-    private ResultSet result,pres;
+    private ResultSet result, pres;
     private int id;
+
     public DoctorPortal(ResultSet res) {
-        this.result=res;
+        this.result = res;
         initComponents();
-        try{
-        String name,spec;
-        name=result.getString("name");
-        spec=result.getString("specialized");
-        this.id=result.getInt("Did");
-        docNameLabel.setText(name.toUpperCase());
-        jLabel2.setText(spec.toUpperCase());
-        jLabel1.setText(new java.util.Date().toString());
-        currPatient();
-        System.out.println("doctor portal work");
-        }catch(SQLException e){System.out.println("doctor portal");}
-        
+        try {
+            String name, spec;
+            name = result.getString("name");
+            spec = result.getString("specialized");
+            this.id = result.getInt("Did");
+            docNameLabel.setText(name.toUpperCase());
+            jLabel2.setText(spec.toUpperCase());
+            jLabel1.setText(new java.util.Date().toString());
+            currPatient();
+            System.out.println("doctor portal work");
+        } catch (SQLException e) {
+            System.out.println("doctor portal");
+        }
+
     }
-    private void msgbox(String s){
-   JOptionPane.showMessageDialog(null, s);
-}
-    private void currPatient()throws SQLException{
-        String query="SELECT * from Patient JOIN current where Patient.pid=current.pid";
-        Connection con=DocConnect.conn;
-        Statement stm=con.createStatement();
-        ResultSet res=stm.executeQuery(query);
-        pres=res;
+
+    private void msgbox(String s) {
+        JOptionPane.showMessageDialog(null, s);
+    }
+
+    private void currPatient() throws SQLException {
+        String query = "SELECT * from Patient JOIN current where Patient.pid=current.pid";
+        Connection con = DocConnect.conn;
+        Statement stm = con.createStatement();
+        ResultSet res = stm.executeQuery(query);
+        pres = res;
         nextAvail();
     }
-    void nextAvail()throws SQLException{
-        if(pres.next() && pres.getInt("doctor_id") == this.id){
+
+    void nextAvail() throws SQLException {
+        if (pres.next() && pres.getInt("doctor_id") == this.id) {
             nameDisplayLabel.setText(pres.getString("name"));
             sexDisplayLabel.setText(pres.getString("sex"));
             heightDisplayLabel.setText(String.valueOf(pres.getFloat("height")));
@@ -51,37 +55,39 @@ public class DoctorPortal extends javax.swing.JFrame {
             jTextArea1.setText(pres.getString("description"));
             notesTextArea.setText(pres.getString("notes"));
             checkupHistory(pres.getInt("pid"));
-                
-        }
-        else{
+
+        } else {
             msgbox("No Patience Currently");
             repaint();
         }
     }
-    
-    private void checkupHistory(int a){
-        String query="select date from checkup where pid="+a;
-        String []carr;
-        try{
-        int i=0;
-        Connection con=DocConnect.conn;
-        Statement stm=con.createStatement();
-        ResultSet check=stm.executeQuery(query);
-        check.last();  
-        carr=new String[check.getRow()];
-        System.out.println(a);
-        check.beforeFirst();
-        while(check.next()){
-        carr[i]=check.getString("date");
-        System.out.println(a);
-        i++;
+
+    private void checkupHistory(int a) {
+        String query = "select date from checkup where pid=" + a;
+        String[] carr;
+        try {
+            int i = 1;
+            Connection con = DocConnect.conn;
+            Statement stm = con.createStatement();
+            ResultSet check = stm.executeQuery(query);
+            check.last();
+            carr = new String[check.getRow() + 1];
+            System.out.println(a);
+            check.beforeFirst();
+            carr[0] = "- - -";
+            while (check.next()) {
+                carr[i] = check.getString("date");
+                System.out.println(a);
+                i++;
+            }
+            System.out.println(a);
+            checkupItembox.setModel(new javax.swing.DefaultComboBoxModel(carr));
+        } catch (SQLException e) {
+            System.out.println("error");
         }
-        System.out.println(a);
-        checkupItembox.setModel(new javax.swing.DefaultComboBoxModel(carr));
-        }catch(SQLException e){System.out.println("error");}
-        
-        
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -115,11 +121,12 @@ public class DoctorPortal extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         checkupLabel = new javax.swing.JLabel();
         checkupItembox = new javax.swing.JComboBox<>();
-        checkupDisplayFeild = new javax.swing.JTextField();
         notesLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         notesTextArea = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        checkupDisplayFeild = new javax.swing.JTextArea();
         jPanel4 = new javax.swing.JPanel();
         nextButton = new javax.swing.JButton();
         callButton = new javax.swing.JButton();
@@ -246,13 +253,6 @@ public class DoctorPortal extends javax.swing.JFrame {
             }
         });
 
-        checkupDisplayFeild.setText("                <medicine given>");
-        checkupDisplayFeild.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkupDisplayFeildActionPerformed(evt);
-            }
-        });
-
         notesLabel.setText("Notes");
 
         notesTextArea.setColumns(20);
@@ -261,6 +261,13 @@ public class DoctorPortal extends javax.swing.JFrame {
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Medicine given on checkup");
+
+        checkupDisplayFeild.setEditable(false);
+        checkupDisplayFeild.setColumns(20);
+        checkupDisplayFeild.setRows(5);
+        checkupDisplayFeild.setWrapStyleWord(true);
+        checkupDisplayFeild.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
+        jScrollPane3.setViewportView(checkupDisplayFeild);
 
         javax.swing.GroupLayout doctorEditLayout = new javax.swing.GroupLayout(doctorEdit);
         doctorEdit.setLayout(doctorEditLayout);
@@ -274,8 +281,8 @@ public class DoctorPortal extends javax.swing.JFrame {
                 .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(checkupLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(checkupItembox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(checkupDisplayFeild, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(notesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -285,11 +292,7 @@ public class DoctorPortal extends javax.swing.JFrame {
         );
         doctorEditLayout.setVerticalGroup(
             doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(doctorEditLayout.createSequentialGroup()
-                .addComponent(descriptionLable, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(doctorEditLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, doctorEditLayout.createSequentialGroup()
                 .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(checkupLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(notesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -300,14 +303,23 @@ public class DoctorPortal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(checkupDisplayFeild, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, doctorEditLayout.createSequentialGroup()
+                .addComponent(descriptionLable, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel4.setBackground(new java.awt.Color(26, 188, 156));
 
         nextButton.setBackground(new java.awt.Color(41, 128, 185));
         nextButton.setText("Next >>");
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextButtonActionPerformed(evt);
+            }
+        });
 
         callButton.setBackground(new java.awt.Color(41, 128, 185));
         callButton.setText("Call Nurse");
@@ -318,7 +330,7 @@ public class DoctorPortal extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addComponent(callButton, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 527, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 530, Short.MAX_VALUE)
                 .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -422,7 +434,7 @@ public class DoctorPortal extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1);
@@ -434,23 +446,58 @@ public class DoctorPortal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel2ComponentHidden
 
-    private void checkupItemboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkupItemboxActionPerformed
-        checkupItembox.getSelectedItem();
-        Connection con=DocConnect.conn;
-        String query="";
-    }//GEN-LAST:event_checkupItemboxActionPerformed
-
-    private void checkupDisplayFeildActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkupDisplayFeildActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkupDisplayFeildActionPerformed
-
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    private void checkupItemboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkupItemboxActionPerformed
+
+        try {
+            Connection con = DocConnect.conn;
+            String query = "select medicine.mname from checkup inner join check_med on checkup.cid=check_med.checkid inner join medicine on check_med.mid=medicine.mid where checkup.date=\"" + checkupItembox.getSelectedItem() + "\"";
+            Statement stm = con.createStatement();
+            ResultSet res = stm.executeQuery(query);
+            int i = 1;
+            String str = "";
+            while (res.next()) {
+                str += i + ". " + res.getString("mname") + "\n";
+                i++;
+            }
+            checkupDisplayFeild.setText(str);
+        } catch (SQLException e) {
+            System.out.print("dberror");
+        }
+
+    }//GEN-LAST:event_checkupItemboxActionPerformed
+
     private void checkupItemboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkupItemboxItemStateChanged
-//        System.out.println(checkupItembox.getSelectedItem());
+        //        System.out.println(checkupItembox.getSelectedItem());
     }//GEN-LAST:event_checkupItemboxItemStateChanged
+
+    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            Connection con = DocConnect.conn;
+        String disease = jTextField1.getText();
+        String description = jTextArea1.getText();
+        String notes = notesTextArea.getText();
+        String query = "UPDATE Patient SET  disease=?,description=?,notes=?  WHERE pid=?;";
+        String q2="insert into checkup(date,pid) values (\""+jLabel1.getText()+"\",\""+pres.getInt("pid")+"\")";
+        System.out.println(q2);
+        PreparedStatement stm=con.prepareStatement(query);
+        
+        Statement st=con.createStatement();
+        st.execute(q2);
+        stm.setString(1,disease);
+        stm.setString(2,description);
+        stm.setString(3,notes);
+        stm.setInt(4,pres.getInt("pid"));
+        stm.executeUpdate();
+            nextAvail();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_nextButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -492,7 +539,7 @@ public class DoctorPortal extends javax.swing.JFrame {
     private javax.swing.JLabel ageDisplay;
     private javax.swing.JLabel ageLabel;
     private javax.swing.JButton callButton;
-    private javax.swing.JTextField checkupDisplayFeild;
+    private javax.swing.JTextArea checkupDisplayFeild;
     private javax.swing.JComboBox<String> checkupItembox;
     private javax.swing.JLabel checkupLabel;
     private javax.swing.JLabel descriptionLable;
@@ -512,6 +559,7 @@ public class DoctorPortal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel nameDisplayLabel;
