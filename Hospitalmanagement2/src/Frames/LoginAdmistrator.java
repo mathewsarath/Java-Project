@@ -191,7 +191,7 @@ public class LoginAdmistrator extends javax.swing.JFrame {
 
     private void gotoScreen(ResultSet res) {
         if (loginName.equals("doctor")) {
-            new DoctorPortal(res).setVisible(true);
+            new NewJFrame(res).setVisible(true);
         }
     }
 

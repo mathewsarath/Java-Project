@@ -57,8 +57,7 @@ public class DoctorPortal extends javax.swing.JFrame {
             checkupHistory(pres.getInt("pid"));
 
         } else {
-            msgbox("No Patience Currently");
-            repaint();
+            new NewJFrame2().setVisible(true);
         }
     }
 
