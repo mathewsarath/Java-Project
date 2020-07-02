@@ -171,7 +171,9 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        new DoctorPortal(docres).setVisible(true);
+        DoctorPortal docport=new DoctorPortal(docres);
+        docport.setVisible(true);
+        docport.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);;
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
