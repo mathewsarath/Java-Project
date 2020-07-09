@@ -6,6 +6,7 @@
 package Frames;
 
 import hospitalmanagement2.*;
+import java.sql.Connection;
 
 /**
  *
@@ -16,6 +17,7 @@ public class DashBoard extends javax.swing.JFrame {
     /**
      * Creates new form DashBoard
      */
+    static Connection conn = null;
     public DashBoard() {
         initComponents();
         new ManageDatabase().setVisible(true);

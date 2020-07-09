@@ -37,7 +37,7 @@ public class DoctorPortal extends javax.swing.JFrame {
 
     private void currPatient() throws SQLException {
         String query = "SELECT * from Patient JOIN current where Patient.pid=current.pid";
-        Connection con = DocConnect.conn;
+        Connection con = DashBoard.conn;
         Statement stm = con.createStatement();
         ResultSet res = stm.executeQuery(query);
         pres = res;
@@ -64,7 +64,7 @@ public class DoctorPortal extends javax.swing.JFrame {
         String[] carr;
         try {
             int i = 1;
-            Connection con = DocConnect.conn;
+            Connection con = DashBoard.conn;
             Statement stm = con.createStatement();
             ResultSet check = stm.executeQuery(query);
             check.last();
@@ -459,7 +459,7 @@ public class DoctorPortal extends javax.swing.JFrame {
     private void checkupItemboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkupItemboxActionPerformed
 
         try {
-            Connection con = DocConnect.conn;
+            Connection con = DashBoard.conn;
             String query = "select medicine.mname from checkup inner join check_med on checkup.cid=check_med.checkid inner join medicine on check_med.mid=medicine.mid where checkup.date=\"" + checkupItembox.getSelectedItem() + "\"";
             Statement stm = con.createStatement();
             ResultSet res = stm.executeQuery(query);
@@ -483,7 +483,7 @@ public class DoctorPortal extends javax.swing.JFrame {
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         // TODO add your handling code here:
         try {
-            Connection con = DocConnect.conn;
+            Connection con = DashBoard.conn;
        // String disease = jTextField1.getText();
        // String description = jTextArea1.getText();
         String notes = notesTextArea.getText();

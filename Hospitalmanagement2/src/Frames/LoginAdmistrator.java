@@ -169,12 +169,14 @@ public class LoginAdmistrator extends javax.swing.JFrame {
         loginDatabase();
     }//GEN-LAST:event_submitButtonMouseClicked
     private void loginDatabase() {
-        String query = "select * from " + loginName + " where Did=? and password=?";
-        Connection con = DocConnect.conn;
+        String tableName="doctor";
+        String query = "select * from " + tableName+ " where Did=? and password=? and Type=?";
+        Connection con = DashBoard.conn;
         try {
             PreparedStatement prepare = con.prepareStatement(query);
             prepare.setInt(1, Integer.parseInt(userName));
             prepare.setString(2, new String(password));
+            prepare.setString(3, new String(loginName));
             ResultSet res = prepare.executeQuery();
             System.out.println(res);
             if (res.next()) {
@@ -194,7 +196,15 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             NewJFrame docLog=new NewJFrame(res);
             docLog.setVisible(true);
             docLog.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+
         }
+        else if (loginName.equals("reception"))
+        {
+            Registration form=new Registration();
+            form.setVisible(true);
+            form.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        }
+        this.dispose();
     }
 
     /**
