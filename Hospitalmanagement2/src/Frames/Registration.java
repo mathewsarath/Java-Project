@@ -22,11 +22,61 @@ public class Registration extends javax.swing.JFrame {
 Connection con=null;
 ResultSet rs=null;
 PreparedStatement pst=null;
+String[] doctors;
     /**
      * Creates new form Registration
      */
     public Registration() {
+        con=DashBoard.conn;
+        int count;
+        try{
+            Statement stmt= con.createStatement();
+            String sql1="Select count(Did)  as count from doctor where Type='doctor'";
+            rs=stmt.executeQuery(sql1);
+            if(rs.next()){
+                count=rs.getInt("count");
+                doctors=new String[count];
+                //JOptionPane.showMessageDialog( this, String.valueOf(rs.getInt("count")),"Error", JOptionPane.ERROR_MESSAGE);
+               }
+            else{
+               //JOptionPane.showMessageDialog( this, "did not got anything","Error", JOptionPane.ERROR_MESSAGE);
+               count=0;
+            }
+            sql1="Select name from doctor where Type='doctor'";
+            rs=stmt.executeQuery(sql1);
+            int i=0;
+            while(i<count){
+                rs.next();
+                doctors[i]=rs.getString("name");
+                i++;
+                
+                //JOptionPane.showMessageDialog( this, String.valueOf(rs.getInt("count")),"Error", JOptionPane.ERROR_MESSAGE);
+               }
+            
+               //JOptionPane.showMessageDialog( this, "did not got anything","Error", JOptionPane.ERROR_MESSAGE);
+        }
+        catch(HeadlessException | SQLException ex){
+            JOptionPane.showMessageDialog( this, "Error","Error", JOptionPane.ERROR_MESSAGE);
+            
+        }
         initComponents();
+        
+    }
+        private int getTocken(){
+        try{
+            con=DashBoard.conn;
+            Statement stmt= con.createStatement();
+            String sql1="Select count(PatientID) as token from Patient";
+            rs=stmt.executeQuery(sql1);
+                    if(rs.next()){
+            return rs.getInt("token");
+                }
+        }
+        catch(HeadlessException | SQLException ex){
+            JOptionPane.showMessageDialog( this, "Invalid input","Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+        return 1;
     }
 private void Reset()
 {
@@ -80,6 +130,8 @@ private void Reset()
         Weight = new javax.swing.JLabel();
         txtHeight = new javax.swing.JTextField();
         txtWeight = new javax.swing.JTextField();
+        listDoctor = new javax.swing.JComboBox<>();
+        jLabel11 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btnSave = new javax.swing.JButton();
         btnNew = new javax.swing.JButton();
@@ -95,7 +147,7 @@ private void Reset()
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Patient Detail's"));
 
-        jLabel1.setText("Patient ID");
+        jLabel1.setText("Tocken");
 
         jLabel2.setText("Name");
 
@@ -122,6 +174,11 @@ private void Reset()
         cmbGender.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "M", "F" }));
 
         cmbBG.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-" }));
+        cmbBG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbBGActionPerformed(evt);
+            }
+        });
 
         jLabel10.setText("Information");
 
@@ -139,6 +196,15 @@ private void Reset()
             }
         });
 
+        listDoctor.setModel(new javax.swing.DefaultComboBoxModel<>(doctors));
+        listDoctor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listDoctorActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("Doctor");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -152,10 +218,10 @@ private void Reset()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6)
@@ -163,26 +229,33 @@ private void Reset()
                             .addComponent(jLabel8)
                             .addComponent(jLabel9)
                             .addComponent(Height)
-                            .addComponent(Weight))
+                            .addComponent(Weight)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(52, 52, 52)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cmbBG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cmbGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtAge, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
-                            .addComponent(txtEmail)
-                            .addComponent(txtContact)
-                            .addComponent(txtAdd)
-                            .addComponent(txtFname)
-                            .addComponent(txtName)
-                            .addComponent(txtId)
-                            .addComponent(txtHeight)
-                            .addComponent(txtWeight))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(cmbBG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cmbGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtAge, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                                .addComponent(txtEmail)
+                                .addComponent(txtContact)
+                                .addComponent(txtAdd)
+                                .addComponent(txtFname)
+                                .addComponent(txtName)
+                                .addComponent(txtId)
+                                .addComponent(txtHeight)
+                                .addComponent(txtWeight))
+                            .addComponent(listDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(listDoctor)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -317,7 +390,7 @@ private void Reset()
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
@@ -456,6 +529,40 @@ try{
         // TODO add your handling code here:
     }//GEN-LAST:event_txtWeightActionPerformed
 
+    private void listDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDoctorActionPerformed
+        // TODO add your handling code here:
+        String doc=(String)listDoctor.getSelectedItem();
+        con=DashBoard.conn;
+        int count;
+        try{
+            Statement stmt= con.createStatement();
+            String sql1="Select count(PatientID)  as count from Patient group by doctor_id having doctor_id=(select Did from doctor where name=?)";
+            PreparedStatement prepare = con.prepareStatement(sql1);
+            prepare.setString(1,doc);
+            rs=prepare.executeQuery();
+            if(rs.next()){
+                count=rs.getInt("count");
+            }
+            else
+            {
+                    count=0;
+            }
+                txtId.setText(String.valueOf(count+1));
+                //JOptionPane.showMessageDialog( this, String.valueOf(rs.getInt("count")),"Error", JOptionPane.ERROR_MESSAGE);
+            }
+        catch(HeadlessException | SQLException |NullPointerException ex){
+            JOptionPane.showMessageDialog( this, "Error","Error", JOptionPane.ERROR_MESSAGE);
+            
+            
+        }
+        
+        
+    }//GEN-LAST:event_listDoctorActionPerformed
+
+    private void cmbBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbBGActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbBGActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -503,6 +610,7 @@ try{
     public javax.swing.JComboBox cmbGender;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -514,6 +622,7 @@ try{
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<String> listDoctor;
     public javax.swing.JTextField txtAdd;
     public javax.swing.JTextField txtAge;
     public javax.swing.JTextField txtContact;
