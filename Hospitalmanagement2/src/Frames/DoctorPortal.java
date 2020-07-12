@@ -36,7 +36,7 @@ public class DoctorPortal extends javax.swing.JFrame {
     }
 
     private void currPatient() throws SQLException {
-        String query = "SELECT * from Patient JOIN current where Patient.pid=current.pid";
+        String query = "SELECT * from Patient JOIN current where Patient.PatientID=current.pid";
         Connection con = DashBoard.conn;
         Statement stm = con.createStatement();
         ResultSet res = stm.executeQuery(query);
@@ -46,13 +46,13 @@ public class DoctorPortal extends javax.swing.JFrame {
 
     void nextAvail() throws SQLException {
         if (pres.next() && pres.getInt("doctor_id") == this.id) {
-            nameDisplayLabel.setText(pres.getString("name"));
-            sexDisplayLabel.setText(pres.getString("sex"));
-            heightDisplayLabel.setText(String.valueOf(pres.getFloat("height")));
-            weightDisplayLabel.setText(String.valueOf(pres.getFloat("weight")));
-            ageDisplay.setText(String.valueOf(pres.getInt("age")));
-            notesTextArea.setText(pres.getString("notes"));
-            checkupHistory(pres.getInt("pid"));
+            nameDisplayLabel.setText(pres.getString("Patientname"));
+            sexDisplayLabel.setText(pres.getString("Gen"));
+            heightDisplayLabel.setText(String.valueOf(pres.getFloat("Height")));
+            weightDisplayLabel.setText(String.valueOf(pres.getFloat("Weight")));
+            ageDisplay.setText(String.valueOf(pres.getInt("Age")));
+            notesTextArea.setText(pres.getString("Remarks"));
+            checkupHistory(pres.getInt("PatientID"));
 
         } else {
             new NewJFrame2().setVisible(true);
