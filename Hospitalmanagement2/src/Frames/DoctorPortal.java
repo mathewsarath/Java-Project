@@ -10,7 +10,7 @@ public class DoctorPortal extends javax.swing.JFrame {
      * Creates new form DoctorPortal
      */
     private ResultSet result, pres;
-    private int id;
+    private int id,token=0;
 
     public DoctorPortal(ResultSet res) {
         this.result = res;
@@ -36,16 +36,18 @@ public class DoctorPortal extends javax.swing.JFrame {
     }
 
     private void currPatient() throws SQLException {
-        String query = "SELECT * from Patient JOIN current where Patient.PatientID=current.pid";
+        token++;
+        String query = "SELECT * from Patient NATURAL JOIN current where  doctor_id="+String.valueOf(id)+" and currentid="+String.valueOf(token)+" ;";
         Connection con = DashBoard.conn;
-        Statement stm = con.createStatement();
-        ResultSet res = stm.executeQuery(query);
+        Statement st=con.createStatement();
+        ResultSet res = st.executeQuery(query);
         pres = res;
+        System.out.print ("this is token:"+token);
         nextAvail();
     }
 
     void nextAvail() throws SQLException {
-        if (pres.next() && pres.getInt("doctor_id") == this.id) {
+        if (pres.next() ) {
             nameDisplayLabel.setText(pres.getString("Patientname"));
             sexDisplayLabel.setText(pres.getString("Gen"));
             heightDisplayLabel.setText(String.valueOf(pres.getFloat("Height")));
@@ -53,9 +55,10 @@ public class DoctorPortal extends javax.swing.JFrame {
             ageDisplay.setText(String.valueOf(pres.getInt("Age")));
             notesTextArea.setText(pres.getString("Remarks"));
             diseaseVariable.setText(pres.getString("disease"));
-            checkupHistory(pres.getInt("PatientID"));
+           // checkupHistory(pres.getInt("PatientID"));
 
         } else {
+            System.out.print("check");
             new NewJFrame2().setVisible(true);
             this.dispose();
         }
@@ -540,7 +543,7 @@ public class DoctorPortal extends javax.swing.JFrame {
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         // TODO add your handling code here:
         try {
-            Connection con = DashBoard.conn;
+           /* Connection con = DashBoard.conn;
         String disease = diseaseVariable.getText();
 //        String description = jTextArea1.getText();
         String notes = notesTextArea.getText();
@@ -560,6 +563,9 @@ public class DoctorPortal extends javax.swing.JFrame {
         st.close();
         stm.close();
             nextAvail();
+            
+            */
+          currPatient();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

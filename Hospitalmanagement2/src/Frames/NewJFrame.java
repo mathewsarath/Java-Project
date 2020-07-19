@@ -171,9 +171,27 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        DoctorPortal docport=new DoctorPortal(docres);
-        docport.setVisible(true);
-        docport.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);;
+        ResultSet res;
+       try {
+           String query="SELECT doctor_id FROM Patient NATURAL JOIN current WHERE doctor_id="+docres.getString("Did")+" ;";
+           Statement st=DashBoard.conn.createStatement();
+           res=st.executeQuery(query);
+           if(res.next())
+                {
+                 DoctorPortal docport=new DoctorPortal(docres);
+                 docport.setVisible(true);
+                 docport.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);;
+                }
+           else{
+               NewJFrame2 fr=new NewJFrame2();
+               fr.setVisible(true);
+               fr.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);;
+           }
+       }
+       catch(SQLException e){
+           System.out.println(e);
+       }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
