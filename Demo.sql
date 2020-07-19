@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 09, 2020 at 11:07 PM
+-- Generation Time: Jul 19, 2020 at 02:12 PM
 -- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.6
+-- PHP Version: 7.4.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `checkup` (
   `cid` int(11) NOT NULL,
-  `date` varchar(15) NOT NULL,
+  `date` varchar(50) NOT NULL,
   `pid` int(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -39,7 +39,8 @@ CREATE TABLE `checkup` (
 
 INSERT INTO `checkup` (`cid`, `date`, `pid`) VALUES
 (1, 'enthelum', 2),
-(2, 'vere enthelum', 2);
+(2, 'vere enthelum', 2),
+(8, 'Tue Jul 14 22:28:02 IST 2020', 2);
 
 -- --------------------------------------------------------
 
@@ -77,7 +78,10 @@ CREATE TABLE `current` (
 --
 
 INSERT INTO `current` (`currentid`, `pid`) VALUES
-(1, 2);
+(1, 2),
+(2, 124),
+(3, 2),
+(4, 2);
 
 -- --------------------------------------------------------
 
@@ -92,17 +96,23 @@ CREATE TABLE `doctor` (
   `specialized` varchar(20) DEFAULT NULL,
   `incomeid` int(10) NOT NULL,
   `password` varchar(30) NOT NULL,
-  `Type` varchar(20) DEFAULT NULL
+  `Type` varchar(20) DEFAULT NULL,
+  `house` varchar(20) NOT NULL,
+  `place` varchar(20) NOT NULL,
+  `district` varchar(20) NOT NULL,
+  `state` varchar(20) NOT NULL,
+  `pin` varchar(7) NOT NULL,
+  `contact` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `doctor`
 --
 
-INSERT INTO `doctor` (`Did`, `name`, `sex`, `specialized`, `incomeid`, `password`, `Type`) VALUES
-(1, 'ram', 'male', 'dermatology', 23, 'hello', 'doctor'),
-(2, 'raju', 'male', 'cardiac', 43, 'qwerty', 'doctor'),
-(12, 'david', 'M', NULL, 12000, '1234', 'reception');
+INSERT INTO `doctor` (`Did`, `name`, `sex`, `specialized`, `incomeid`, `password`, `Type`, `house`, `place`, `district`, `state`, `pin`, `contact`) VALUES
+(1, 'ram', 'male', 'dermatology', 23, 'hello', 'doctor', 'punjabi', 'karikode', 'kollam', 'kerala', '', 123456789),
+(2, 'raju', 'male', 'cardiac', 43, 'qwerty', 'doctor', 'melepura', 'ottapalam', 'kollam', 'kerala', '', 934678293),
+(3, 'david', 'M', '', 12000, '1234', 'reception', 'kaithapura', 'keezgmad', 'kollam', 'kerala', '', 123456789);
 
 -- --------------------------------------------------------
 
@@ -142,6 +152,7 @@ CREATE TABLE `Patient` (
   `billid` int(5) DEFAULT NULL,
   `doctor_id` int(6) DEFAULT NULL,
   `description` varchar(1000) DEFAULT NULL,
+  `notes` varchar(100) DEFAULT NULL,
   `Remarks` varchar(1000) NOT NULL,
   `ContactNo` varchar(10) NOT NULL,
   `Address` text NOT NULL,
@@ -154,8 +165,30 @@ CREATE TABLE `Patient` (
 -- Dumping data for table `Patient`
 --
 
-INSERT INTO `Patient` (`PatientID`, `Patientname`, `Gen`, `Height`, `Weight`, `Age`, `disease`, `roomid`, `billid`, `doctor_id`, `description`, `Remarks`, `ContactNo`, `Address`, `BG`, `FatherName`, `Email`) VALUES
-(2, 'kuttan', 'M', 169.56, 62.4, 26, 'chrone', '', 4, 1, '2eqwfdrgtfy', '3e2wre4gth', '0', '', '', NULL, NULL);
+INSERT INTO `Patient` (`PatientID`, `Patientname`, `Gen`, `Height`, `Weight`, `Age`, `disease`, `roomid`, `billid`, `doctor_id`, `description`, `notes`, `Remarks`, `ContactNo`, `Address`, `BG`, `FatherName`, `Email`) VALUES
+(1, 'kuttan', 'M', 169.56, 62.4, 26, 'chrone', '', 4, 1, '2eqwfdrgtfy', '3e2wre4gth', '3e2wre4gth', '0', '', '', '', ''),
+(2, 'njbg', 'M', NULL, NULL, 19, NULL, NULL, NULL, NULL, NULL, NULL, 'tehnnnnnnnnnnnnnn', '1234567890', 'y4bbbbbb', 'O+', NULL, NULL),
+(3, 'sxdcfvg', 'M', 169, 49, 56, NULL, NULL, NULL, NULL, NULL, NULL, 'rtgyhuj', '1234567890', 'cvbnm', 'O+', 'zxcvbnm', 'wertyuiokfdsa'),
+(4, 'wexrcftv', 'F', 165, 59, 67, NULL, NULL, NULL, NULL, NULL, NULL, 'tvybgh', '987654321', 'qwertyuiolkjhgfdsazxcvbnm', 'A-', 'zesxdrcftvg', 'ercdftvgybhnj');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Token`
+--
+
+CREATE TABLE `Token` (
+  `Docid` int(8) NOT NULL,
+  `token` int(8) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Token`
+--
+
+INSERT INTO `Token` (`Docid`, `token`) VALUES
+(1, 2),
+(2, 4);
 
 --
 -- Indexes for dumped tables
@@ -192,6 +225,12 @@ ALTER TABLE `Patient`
   ADD PRIMARY KEY (`PatientID`);
 
 --
+-- Indexes for table `Token`
+--
+ALTER TABLE `Token`
+  ADD UNIQUE KEY `Docid` (`Docid`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -199,13 +238,13 @@ ALTER TABLE `Patient`
 -- AUTO_INCREMENT for table `checkup`
 --
 ALTER TABLE `checkup`
-  MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `current`
 --
 ALTER TABLE `current`
-  MODIFY `currentid` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `currentid` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `doctor`
@@ -223,7 +262,7 @@ ALTER TABLE `medicine`
 -- AUTO_INCREMENT for table `Patient`
 --
 ALTER TABLE `Patient`
-  MODIFY `PatientID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `PatientID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
