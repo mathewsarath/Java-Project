@@ -23,7 +23,7 @@ Connection con=null;
 ResultSet rs=null;
 PreparedStatement pst=null;
 String[] doctors;
-boolean seedoc=true;
+boolean seedoc=false;
 String patient;
 String doc;
 int count;
@@ -65,7 +65,7 @@ int count;
         }
         initComponents();
         txtId.setEditable(false);
-        listDoctor.setEnabled(false);
+//        listDoctor.setEnabled(false);
     }
 //        private int getTocken(){
 //        try{
@@ -104,6 +104,7 @@ private void Reset()
     seedocbut.setEnabled(false);
     txtId.requestDefaultFocus();
     txtId.setEditable(false);
+    seedoc=false;
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -531,8 +532,19 @@ try{
 //        txtId.setText("");
 //        txtId.requestDefaultFocus();
 //       return;
-//      }
-            String sql= "insert into Patient(Patientname,FatherName,Email,ContactNo,Age,Remarks,Gen,BG,Address,Height,Weight)values('"+ txtName.getText() + "','"+ txtFname.getText() + "','"+ txtEmail.getText() + "','"+ txtContact.getText() + "'," + txtAge.getText() + ",'"+ txtInfo.getText() + "','" + cmbGender.getSelectedItem() + "','"+ cmbBG.getSelectedItem() + "','" + txtAdd.getText() +"','" + txtHeight.getText() + "','" + txtWeight.getText() +"')";
+//      }   
+
+            PreparedStatement stm=con.prepareStatement("select Did from doctor where name=? and type='doctor'");
+            stm.setString(1,(String)listDoctor.getSelectedItem());
+            ResultSet r=stm.executeQuery();
+            
+            
+            String docid=null;
+            if(r.next()){
+                docid=r.getString("Did");
+            }
+            stm.close();
+            String sql= "insert into Patient(Patientname,FatherName,Email,ContactNo,Age,Remarks,Gen,BG,Address,Height,Weight,doctor_id)values('"+ txtName.getText() + "','"+ txtFname.getText() + "','"+ txtEmail.getText() + "','"+ txtContact.getText() + "'," + txtAge.getText() + ",'"+ txtInfo.getText() + "','" + cmbGender.getSelectedItem() + "','"+ cmbBG.getSelectedItem() + "','" + txtAdd.getText() +"','" + txtHeight.getText() + "','" + txtWeight.getText() +"','"+docid+"')";
             String sql2="SELECT `AUTO_INCREMENT`\n" +
             "FROM  INFORMATION_SCHEMA.TABLES\n" +
             "WHERE TABLE_SCHEMA = 'Demo'\n" +
@@ -546,9 +558,10 @@ try{
             if(res.next()){
                 pidtext.setText("Patiend id: "+String.valueOf(res.getInt("AUTO_INCREMENT")-1));
             }
-           
+           st.close();
         }catch(HeadlessException | SQLException ex){
-            JOptionPane.showMessageDialog(this,ex);
+//            JOptionPane.showMessageDialog(this,ex);
+System.out.println(ex.getMessage());
         }
                                           
 
@@ -607,7 +620,9 @@ try{
         // TODO add your handling code here:
         doc=(String)listDoctor.getSelectedItem();
         con=DashBoard.conn;
+        if(seedoc){
         try{
+            
             Statement stmt= con.createStatement();
             String sql1="select token from Token where Docid=(select Did from doctor where name=?)";
             PreparedStatement prepare = con.prepareStatement(sql1);
@@ -627,6 +642,7 @@ try{
 //            JOptionPane.showMessageDialog( this, "Error","Error", JOptionPane.ERROR_MESSAGE);
             System.out.println(ex.getMessage());
             
+        }
         }
         
         
@@ -648,7 +664,7 @@ try{
         
         if(stm.executeUpdate() ==1){
             JOptionPane.showMessageDialog( this, "Success","success", JOptionPane.OK_OPTION);
-            PreparedStatement prepare2=con.prepareStatement("update Token set token=? where Docid=(select Did from doctor where name=?)");
+            PreparedStatement prepare2=con.prepareStatement("update Token set token=? where Docid=(select Did from doctor where name=?);update Patient set doctor_id=?");
                 prepare2.setInt(1,count);
                 prepare2.setString(2, doc);
                 int i=prepare2.executeUpdate();
@@ -661,6 +677,7 @@ try{
     }//GEN-LAST:event_seedocbutActionPerformed
 
     private void btnGetDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetDataActionPerformed
+        seedoc=true;
         int pid=Integer.parseInt(getpid.getText());
         String query="select * from Patient where PatientID=?";
         try{
