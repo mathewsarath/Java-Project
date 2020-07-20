@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 09, 2020 at 11:07 PM
+-- Generation Time: Jul 20, 2020 at 04:37 PM
 -- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.6
+-- PHP Version: 7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -89,20 +90,18 @@ CREATE TABLE `doctor` (
   `Did` int(5) NOT NULL,
   `name` varchar(30) NOT NULL,
   `sex` varchar(6) NOT NULL,
-  `specialized` varchar(20) DEFAULT NULL,
+  `specialized` varchar(20) NOT NULL,
   `incomeid` int(10) NOT NULL,
-  `password` varchar(30) NOT NULL,
-  `Type` varchar(20) DEFAULT NULL
+  `password` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `doctor`
 --
 
-INSERT INTO `doctor` (`Did`, `name`, `sex`, `specialized`, `incomeid`, `password`, `Type`) VALUES
-(1, 'ram', 'male', 'dermatology', 23, 'hello', 'doctor'),
-(2, 'raju', 'male', 'cardiac', 43, 'qwerty', 'doctor'),
-(12, 'david', 'M', NULL, 12000, '1234', 'reception');
+INSERT INTO `doctor` (`Did`, `name`, `sex`, `specialized`, `incomeid`, `password`) VALUES
+(1, 'ram', 'male', 'dermatology', 23, 'hello'),
+(2, 'raju', 'male', 'cardiac', 43, 'qwerty');
 
 -- --------------------------------------------------------
 
@@ -112,17 +111,22 @@ INSERT INTO `doctor` (`Did`, `name`, `sex`, `specialized`, `incomeid`, `password
 
 CREATE TABLE `medicine` (
   `mid` int(8) NOT NULL,
-  `mname` varchar(30) NOT NULL
+  `mname` varchar(30) NOT NULL,
+  `Manufacturer` varchar(20) NOT NULL,
+  `Exp.Date` varchar(5) NOT NULL,
+  `Rate` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `medicine`
 --
 
-INSERT INTO `medicine` (`mid`, `mname`) VALUES
-(1, 'paracetamol'),
-(2, 'bryonia'),
-(3, 'strepstrills');
+INSERT INTO `medicine` (`mid`, `mname`, `Manufacturer`, `Exp.Date`, `Rate`) VALUES
+(1, 'paracetamol', 'CAD pharma', '06/22', 1),
+(2, 'bryonia', 'Cipla', '07/21', 85),
+(3, 'strepstrills', 'Reckit Benckiser', '02/23', 95),
+(4, 'acetaminophen', 'CAD pharma', '04/22', 74),
+(5, 'Amoxicillin', 'Lupin ', '05/21', 7);
 
 -- --------------------------------------------------------
 
@@ -131,31 +135,26 @@ INSERT INTO `medicine` (`mid`, `mname`) VALUES
 --
 
 CREATE TABLE `Patient` (
-  `PatientID` int(10) NOT NULL,
-  `Patientname` varchar(30) NOT NULL,
-  `Gen` char(1) NOT NULL,
-  `Height` float DEFAULT NULL,
-  `Weight` float DEFAULT NULL,
-  `Age` int(3) NOT NULL,
-  `disease` varchar(30) DEFAULT NULL,
+  `pid` int(10) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `sex` varchar(6) NOT NULL,
+  `height` float DEFAULT NULL,
+  `weight` float DEFAULT NULL,
+  `age` int(3) NOT NULL,
+  `disease` varchar(30) NOT NULL,
   `roomid` varchar(8) DEFAULT NULL,
-  `billid` int(5) DEFAULT NULL,
-  `doctor_id` int(6) DEFAULT NULL,
-  `description` varchar(1000) DEFAULT NULL,
-  `Remarks` varchar(1000) NOT NULL,
-  `ContactNo` varchar(10) NOT NULL,
-  `Address` text NOT NULL,
-  `BG` varchar(3) NOT NULL,
-  `FatherName` varchar(30) DEFAULT NULL,
-  `Email` varchar(30) DEFAULT NULL
+  `billid` int(5) NOT NULL,
+  `doctor_id` int(6) NOT NULL,
+  `description` varchar(1000) NOT NULL,
+  `notes` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `Patient`
 --
 
-INSERT INTO `Patient` (`PatientID`, `Patientname`, `Gen`, `Height`, `Weight`, `Age`, `disease`, `roomid`, `billid`, `doctor_id`, `description`, `Remarks`, `ContactNo`, `Address`, `BG`, `FatherName`, `Email`) VALUES
-(2, 'kuttan', 'M', 169.56, 62.4, 26, 'chrone', '', 4, 1, '2eqwfdrgtfy', '3e2wre4gth', '0', '', '', NULL, NULL);
+INSERT INTO `Patient` (`pid`, `name`, `sex`, `height`, `weight`, `age`, `disease`, `roomid`, `billid`, `doctor_id`, `description`, `notes`) VALUES
+(2, 'kuttan', 'male', 169.56, 62.4, 26, 'chrone', '', 4, 1, '2eqwfdrgtfy', '3e2wre4gth');
 
 --
 -- Indexes for dumped tables
@@ -189,7 +188,7 @@ ALTER TABLE `medicine`
 -- Indexes for table `Patient`
 --
 ALTER TABLE `Patient`
-  ADD PRIMARY KEY (`PatientID`);
+  ADD PRIMARY KEY (`pid`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -211,19 +210,19 @@ ALTER TABLE `current`
 -- AUTO_INCREMENT for table `doctor`
 --
 ALTER TABLE `doctor`
-  MODIFY `Did` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `Did` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `medicine`
 --
 ALTER TABLE `medicine`
-  MODIFY `mid` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `mid` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `Patient`
 --
 ALTER TABLE `Patient`
-  MODIFY `PatientID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `pid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

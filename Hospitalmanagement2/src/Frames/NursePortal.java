@@ -60,7 +60,7 @@ public class NursePortal extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new java.awt.GridLayout());
+        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         jPanel4.setBackground(new java.awt.Color(189, 195, 199));
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 188, 156), 4));
@@ -161,7 +161,7 @@ public class NursePortal extends javax.swing.JFrame {
 
         jLabel8.setText("<status of patient>");
 
-        jLabel9.setText("Madicine :");
+        jLabel9.setText("Medicine :");
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
