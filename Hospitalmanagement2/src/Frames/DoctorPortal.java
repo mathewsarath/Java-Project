@@ -10,7 +10,7 @@ public class DoctorPortal extends javax.swing.JFrame {
      * Creates new form DoctorPortal
      */
     private ResultSet result, pres;
-    private int id;
+    private int id,token=0;
 
     public DoctorPortal(ResultSet res) {
         this.result = res;
@@ -36,26 +36,31 @@ public class DoctorPortal extends javax.swing.JFrame {
     }
 
     private void currPatient() throws SQLException {
-        String query = "SELECT * from Patient JOIN current where Patient.PatientID=current.pid";
+        token++;
+        String query = "SELECT * from Patient NATURAL JOIN current where  doctor_id="+String.valueOf(id)+" and currentid="+String.valueOf(token)+" ;";
         Connection con = DashBoard.conn;
-        Statement stm = con.createStatement();
-        ResultSet res = stm.executeQuery(query);
+        Statement st=con.createStatement();
+        ResultSet res = st.executeQuery(query);
         pres = res;
+        System.out.print ("this is token:"+token);
         nextAvail();
     }
 
     void nextAvail() throws SQLException {
-        if (pres.next() && pres.getInt("doctor_id") == this.id) {
+        if (pres.next() ) {
             nameDisplayLabel.setText(pres.getString("Patientname"));
             sexDisplayLabel.setText(pres.getString("Gen"));
             heightDisplayLabel.setText(String.valueOf(pres.getFloat("Height")));
             weightDisplayLabel.setText(String.valueOf(pres.getFloat("Weight")));
             ageDisplay.setText(String.valueOf(pres.getInt("Age")));
             notesTextArea.setText(pres.getString("Remarks"));
-            checkupHistory(pres.getInt("PatientID"));
+            diseaseVariable.setText(pres.getString("disease"));
+           // checkupHistory(pres.getInt("PatientID"));
 
         } else {
+            System.out.print("check");
             new NewJFrame2().setVisible(true);
+            this.dispose();
         }
     }
 
@@ -79,6 +84,7 @@ public class DoctorPortal extends javax.swing.JFrame {
             }
             System.out.println(a);
             checkupItembox.setModel(new javax.swing.DefaultComboBoxModel(carr));
+            stm.close();
         } catch (SQLException e) {
             System.out.println("error");
         }
@@ -94,6 +100,7 @@ public class DoctorPortal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel4 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         docName = new javax.swing.JPanel();
@@ -127,6 +134,8 @@ public class DoctorPortal extends javax.swing.JFrame {
         jCheckBox3 = new javax.swing.JCheckBox();
         jCheckBox4 = new javax.swing.JCheckBox();
         jCheckBox5 = new javax.swing.JCheckBox();
+        jLabel5 = new javax.swing.JLabel();
+        diseaseVariable = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         nextButton = new javax.swing.JButton();
         callButton = new javax.swing.JButton();
@@ -135,6 +144,8 @@ public class DoctorPortal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+
+        jLabel4.setText("jLabel4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
@@ -268,6 +279,11 @@ public class DoctorPortal extends javax.swing.JFrame {
         jScrollPane3.setViewportView(checkupDisplayFeild);
 
         jCheckBox1.setText("Blood Pressure");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
 
         jCheckBox2.setText("X-Ray");
         jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
@@ -277,6 +293,11 @@ public class DoctorPortal extends javax.swing.JFrame {
         });
 
         jCheckBox3.setText("Blood");
+        jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox3ActionPerformed(evt);
+            }
+        });
 
         jCheckBox4.setText("Urine");
         jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
@@ -287,29 +308,39 @@ public class DoctorPortal extends javax.swing.JFrame {
 
         jCheckBox5.setText("MRI");
 
+        jLabel5.setText("Disease");
+
         javax.swing.GroupLayout doctorEditLayout = new javax.swing.GroupLayout(doctorEdit);
         doctorEdit.setLayout(doctorEditLayout);
         doctorEditLayout.setHorizontalGroup(
             doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(doctorEditLayout.createSequentialGroup()
-                .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(TestLable, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(doctorEditLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(doctorEditLayout.createSequentialGroup()
+                                    .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(doctorEditLayout.createSequentialGroup()
+                                            .addComponent(jCheckBox3)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jCheckBox2))
+                                        .addGroup(doctorEditLayout.createSequentialGroup()
+                                            .addComponent(jCheckBox5)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jCheckBox4)))
+                                    .addGap(69, 69, 69))
+                                .addGroup(doctorEditLayout.createSequentialGroup()
+                                    .addComponent(jCheckBox1)
+                                    .addGap(0, 0, Short.MAX_VALUE)))))
                     .addGroup(doctorEditLayout.createSequentialGroup()
-                        .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(TestLable, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(doctorEditLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jCheckBox5)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, doctorEditLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox3)
-                            .addComponent(jCheckBox1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox2)
-                            .addComponent(jCheckBox4))
-                        .addGap(61, 61, 61)))
+                            .addComponent(diseaseVariable, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(checkupLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(checkupItembox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -320,7 +351,7 @@ public class DoctorPortal extends javax.swing.JFrame {
                     .addComponent(notesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(doctorEditLayout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 20, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         doctorEditLayout.setVerticalGroup(
             doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -330,26 +361,34 @@ public class DoctorPortal extends javax.swing.JFrame {
                     .addComponent(notesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
                     .addGroup(doctorEditLayout.createSequentialGroup()
-                        .addComponent(checkupItembox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(checkupItembox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2)))
+                        .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(doctorEditLayout.createSequentialGroup()
+                                .addComponent(diseaseVariable, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(doctorEditLayout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, doctorEditLayout.createSequentialGroup()
+                .addGap(127, 127, 127)
                 .addComponent(TestLable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(30, 30, 30)
-                .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox2))
                 .addGap(18, 18, 18)
+                .addComponent(jCheckBox1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCheckBox3)
+                    .addComponent(jCheckBox2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBox5)
                     .addComponent(jCheckBox4))
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox5)
-                .addGap(91, 91, 91))
+                .addGap(34, 34, 34))
         );
 
         jPanel4.setBackground(new java.awt.Color(26, 188, 156));
@@ -430,7 +469,7 @@ public class DoctorPortal extends javax.swing.JFrame {
                     .addComponent(weightDisplayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(heightDisplayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(doctorEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(doctorEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -504,23 +543,36 @@ public class DoctorPortal extends javax.swing.JFrame {
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         // TODO add your handling code here:
         try {
-            Connection con = DashBoard.conn;
-       // String disease = jTextField1.getText();
-       // String description = jTextArea1.getText();
+           /* Connection con = DashBoard.conn;
+        String disease = diseaseVariable.getText();
+//        String description = jTextArea1.getText();
         String notes = notesTextArea.getText();
-        String query = "UPDATE Patient SET  disease=?,description=?,notes=?  WHERE pid=?;";
-        String q2="insert into checkup(date,pid) values (\""+jLabel1.getText()+"\",\""+pres.getInt("pid")+"\")";
-        System.out.println(q2);
+        String query = "UPDATE Patient SET  disease=?,notes=?  WHERE patientID=?;";
+        String q2="insert into checkup(cid,date,pid) values(null,?,?)";
+        String q3="delete from current where pid=?";
+        PreparedStatement s=con.prepareStatement(q3);
+        s.setString(1,pres.getString("PatientID"));
+        int i=s.executeUpdate();
+        if(i>0){
+        s.close();
+        }
+        PreparedStatement st=con.prepareStatement(q2);
+        st.setString(1,jLabel1.getText());
+        st.setInt(2,pres.getInt("PatientID"));
+//        System.out.println(q2);
         PreparedStatement stm=con.prepareStatement(query);
-        
-        Statement st=con.createStatement();
-        st.execute(q2);
-        //stm.setString(1,disease);
-        //stm.setString(2,description);
-        stm.setString(3,notes);
-        stm.setInt(4,pres.getInt("pid"));
+        stm.setString(1,disease);
+//        stm.setString(2,description);
+        stm.setString(2,notes);
+        stm.setInt(3,pres.getInt("PatientID"));
         stm.executeUpdate();
+        st.executeUpdate();
+        st.close();
+        stm.close();
             nextAvail();
+            
+            */
+          currPatient();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -537,6 +589,14 @@ public class DoctorPortal extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox3ActionPerformed
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -583,6 +643,7 @@ public class DoctorPortal extends javax.swing.JFrame {
     private javax.swing.JTextArea checkupDisplayFeild;
     private javax.swing.JComboBox<String> checkupItembox;
     private javax.swing.JLabel checkupLabel;
+    private javax.swing.JTextField diseaseVariable;
     private javax.swing.JPanel docName;
     private javax.swing.JLabel docNameLabel;
     private javax.swing.JPanel doctorEdit;
@@ -596,6 +657,8 @@ public class DoctorPortal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;

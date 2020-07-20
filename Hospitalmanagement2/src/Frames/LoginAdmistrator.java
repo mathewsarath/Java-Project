@@ -7,6 +7,7 @@ package Frames;
 
 //import hospitalmanagement2.*;
 import java.sql.*;
+import java.awt.AWTEvent;
 
 /**
  *
@@ -16,6 +17,7 @@ public class LoginAdmistrator extends javax.swing.JFrame {
 
     private String userName, loginName;
     private char[] password;
+    DashBoard db;
 
     /**
      * Creates new form LoginAdmistrator
@@ -34,10 +36,10 @@ public class LoginAdmistrator extends javax.swing.JFrame {
 
     }
 
-    public LoginAdmistrator(String loginName) {//To call from dashboard
+    public LoginAdmistrator(String loginName ,DashBoard db) {//To call from dashboard
         this();
         this.loginName = loginName;
-
+        this.db=db;
     }
 
     public void nameSet(String str) {
@@ -195,7 +197,9 @@ public class LoginAdmistrator extends javax.swing.JFrame {
         if (loginName.equals("doctor")) {
             NewJFrame docLog=new NewJFrame(res);
             docLog.setVisible(true);
+            docLog.addWindowListener(new WindowClose());
             docLog.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+            db.setVisible(false);
 
         }
         else if (loginName.equals("reception"))

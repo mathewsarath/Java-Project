@@ -41,7 +41,7 @@ public class Hospitalmanagement2 {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DashBoard().setVisible(true);
+               WindowClose.db= new DashBoard();
             }
         });
     

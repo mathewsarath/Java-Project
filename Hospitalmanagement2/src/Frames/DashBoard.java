@@ -18,7 +18,9 @@ public class DashBoard extends javax.swing.JFrame {
      * Creates new form DashBoard
      */
     static Connection conn = null;
+    DashBoard db=this;
     public DashBoard() {
+        this.setVisible(true);
         initComponents();
         new ManageDatabase().setVisible(true);
         setSize(900,650);
@@ -338,7 +340,7 @@ public class DashBoard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     private void CreateLoginPage(String user){
         try{
-        LoginAdmistrator login = new LoginAdmistrator(user);
+        LoginAdmistrator login = new LoginAdmistrator(user,db);
         login.setVisible(true);
         login.pack();
         login.setLocationRelativeTo(null);
@@ -395,6 +397,7 @@ public class DashBoard extends javax.swing.JFrame {
         admin.pack();
         admin.setLocationRelativeTo(null);
         admin.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        db.setVisible(false);
         }
         catch(Exception e){
             System.out.print("An error occured while creating new page");

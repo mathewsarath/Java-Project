@@ -23,6 +23,10 @@ Connection con=null;
 ResultSet rs=null;
 PreparedStatement pst=null;
 String[] doctors;
+boolean seedoc=false;
+String patient;
+String doc;
+int count;
     /**
      * Creates new form Registration
      */
@@ -60,24 +64,25 @@ String[] doctors;
             
         }
         initComponents();
-        
+        txtId.setEditable(false);
+//        listDoctor.setEnabled(false);
     }
-        private int getTocken(){
-        try{
-            con=DashBoard.conn;
-            Statement stmt= con.createStatement();
-            String sql1="Select count(PatientID) as token from Patient";
-            rs=stmt.executeQuery(sql1);
-                    if(rs.next()){
-            return rs.getInt("token");
-                }
-        }
-        catch(HeadlessException | SQLException ex){
-            JOptionPane.showMessageDialog( this, "Invalid input","Error", JOptionPane.ERROR_MESSAGE);
-
-        }
-        return 1;
-    }
+//        private int getTocken(){
+//        try{
+//            con=DashBoard.conn;
+//            Statement stmt= con.createStatement();
+//            String sql1="Select count(PatientID) as token from Patient";
+//            rs=stmt.executeQuery(sql1);
+//                    if(rs.next()){
+//            return rs.getInt("token");
+//                }
+//        }
+//        catch(HeadlessException | SQLException ex){
+//            JOptionPane.showMessageDialog( this, "Invalid input","Error", JOptionPane.ERROR_MESSAGE);
+//
+//        }
+//        return 1;
+//    }
 private void Reset()
 {
     txtId.setText("");
@@ -88,12 +93,18 @@ private void Reset()
     txtAge.setText("");
     txtEmail.setText("");
     txtInfo.setText("");
+    txtHeight.setText("");
+    txtWeight.setText("");
+    getpid.setText("");
     cmbBG.setSelectedIndex(-1);
     cmbGender.setSelectedIndex(-1);
     btnSave.setEnabled(true);
     btnUpdate.setEnabled(false);
     btnDelete.setEnabled(false);
+    seedocbut.setEnabled(false);
     txtId.requestDefaultFocus();
+    txtId.setEditable(false);
+    seedoc=false;
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -137,7 +148,11 @@ private void Reset()
         btnNew = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        detailsbut = new javax.swing.JButton();
+        getpid = new javax.swing.JTextField();
+        seedocbut = new javax.swing.JButton();
         btnGetData = new javax.swing.JButton();
+        pidtext = new javax.swing.JLabel();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
@@ -161,6 +176,12 @@ private void Reset()
 
         jLabel7.setText("Age");
 
+        txtId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdActionPerformed(evt);
+            }
+        });
+
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);
@@ -172,6 +193,11 @@ private void Reset()
         jLabel9.setText("Blood Group");
 
         cmbGender.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "M", "F" }));
+        cmbGender.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbGenderActionPerformed(evt);
+            }
+        });
 
         cmbBG.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-" }));
         cmbBG.addActionListener(new java.awt.event.ActionListener() {
@@ -214,7 +240,7 @@ private void Reset()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -246,7 +272,7 @@ private void Reset()
                                 .addComponent(txtHeight)
                                 .addComponent(txtWeight))
                             .addComponent(listDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(65, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,7 +327,7 @@ private void Reset()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Weight)
                     .addComponent(txtWeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)))
@@ -339,10 +365,10 @@ private void Reset()
             }
         });
 
-        btnGetData.setText("GetData");
-        btnGetData.addActionListener(new java.awt.event.ActionListener() {
+        detailsbut.setText("Details");
+        detailsbut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGetDataActionPerformed(evt);
+                detailsbutActionPerformed(evt);
             }
         });
 
@@ -355,10 +381,10 @@ private void Reset()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnGetData, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                    .addComponent(detailsbut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -371,10 +397,31 @@ private void Reset()
                 .addComponent(btnUpdate)
                 .addGap(18, 18, 18)
                 .addComponent(btnDelete)
-                .addGap(18, 18, 18)
-                .addComponent(btnGetData)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(detailsbut)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
+
+        getpid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                getpidActionPerformed(evt);
+            }
+        });
+
+        seedocbut.setText("See Doctor");
+        seedocbut.setEnabled(false);
+        seedocbut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seedocbutActionPerformed(evt);
+            }
+        });
+
+        btnGetData.setText("Get-Data");
+        btnGetData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGetDataActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -383,20 +430,39 @@ private void Reset()
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(getpid)
+                            .addComponent(seedocbut, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(btnGetData, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pidtext, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(69, 69, 69)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(getpid, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnGetData)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pidtext, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(seedocbut, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55))
         );
 
         pack();
@@ -413,11 +479,11 @@ private void Reset()
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
 try{
             con=DashBoard.conn;
-            if (txtId.getText().equals("")) {
-                JOptionPane.showMessageDialog( this, "Please enter patient id","Error", JOptionPane.ERROR_MESSAGE);
-                return;
-
-            }
+//            if (txtId.getText().equals("")) {
+//                JOptionPane.showMessageDialog( this, "Please enter patient id","Error", JOptionPane.ERROR_MESSAGE);
+//                return;
+//
+//            }
             if (txtName.getText().equals("")) {
                 JOptionPane.showMessageDialog( this, "Please enter patient name","Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -457,36 +523,57 @@ try{
                 return;
            }
           
-   Statement stmt;
-       stmt= con.createStatement();
-       String sql1="Select PatientID from Patient where PatientID= '" + txtId.getText() + "'";
-      rs=stmt.executeQuery(sql1);
-      if(rs.next()){
-        JOptionPane.showMessageDialog( this, "Patient already exists","Error", JOptionPane.ERROR_MESSAGE);
-        txtId.setText("");
-        txtId.requestDefaultFocus();
-       return;
-      }
-            String sql= "insert into Patient(PatientID,Patientname,FatherName,Email,ContactNo,Age,Remarks,Gen,BG,Address,Height,Weight)values('"+ txtId.getText() + "','"+ txtName.getText() + "','"+ txtFname.getText() + "','"+ txtEmail.getText() + "','"+ txtContact.getText() + "'," + txtAge.getText() + ",'"+ txtInfo.getText() + "','" + cmbGender.getSelectedItem() + "','"+ cmbBG.getSelectedItem() + "','" + txtAdd.getText() +"','" + txtHeight.getText() + "','" + txtWeight.getText() +"')";
+//   Statement stmt;
+//       stmt= con.createStatement();
+//       String sql1="Select PatientID from Patient where PatientID= '" + txtId.getText() + "'";
+//      rs=stmt.executeQuery(sql1);
+//      if(rs.next()){
+//        JOptionPane.showMessageDialog( this, "Patient already exists","Error", JOptionPane.ERROR_MESSAGE);
+//        txtId.setText("");
+//        txtId.requestDefaultFocus();
+//       return;
+//      }   
 
+            PreparedStatement stm=con.prepareStatement("select Did from doctor where name=? and type='doctor'");
+            stm.setString(1,(String)listDoctor.getSelectedItem());
+            ResultSet r=stm.executeQuery();
+            
+            
+            String docid=null;
+            if(r.next()){
+                docid=r.getString("Did");
+            }
+            stm.close();
+            String sql= "insert into Patient(Patientname,FatherName,Email,ContactNo,Age,Remarks,Gen,BG,Address,Height,Weight,doctor_id)values('"+ txtName.getText() + "','"+ txtFname.getText() + "','"+ txtEmail.getText() + "','"+ txtContact.getText() + "'," + txtAge.getText() + ",'"+ txtInfo.getText() + "','" + cmbGender.getSelectedItem() + "','"+ cmbBG.getSelectedItem() + "','" + txtAdd.getText() +"','" + txtHeight.getText() + "','" + txtWeight.getText() +"','"+docid+"')";
+            String sql2="SELECT `AUTO_INCREMENT`\n" +
+            "FROM  INFORMATION_SCHEMA.TABLES\n" +
+            "WHERE TABLE_SCHEMA = 'Demo'\n" +
+            "AND   TABLE_NAME   = 'Patient';";
             pst=con.prepareStatement(sql);
             pst.execute();
             JOptionPane.showMessageDialog(this,"Successfully Registered","Patient",JOptionPane.INFORMATION_MESSAGE);
             btnSave.setEnabled(false);
-
+            Statement st=con.createStatement();
+            ResultSet res=st.executeQuery(sql2);
+            if(res.next()){
+                pidtext.setText("Patiend id: "+String.valueOf(res.getInt("AUTO_INCREMENT")-1));
+            }
+           st.close();
         }catch(HeadlessException | SQLException ex){
-            JOptionPane.showMessageDialog(this,ex);
+//            JOptionPane.showMessageDialog(this,ex);
+System.out.println(ex.getMessage());
         }
                                           
 
        // TODO add your handling code here:
     }//GEN-LAST:event_btnSaveActionPerformed
 
-    private void btnGetDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetDataActionPerformed
+    private void detailsbutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailsbutActionPerformed
 this.hide();
 PatientRec frm=new PatientRec();
-frm.setVisible(true);        // TODO add your handling code here:
-    }//GEN-LAST:event_btnGetDataActionPerformed
+frm.setVisible(true);        
+
+    }//GEN-LAST:event_detailsbutActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         try{
@@ -531,29 +618,31 @@ try{
 
     private void listDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDoctorActionPerformed
         // TODO add your handling code here:
-        String doc=(String)listDoctor.getSelectedItem();
+        doc=(String)listDoctor.getSelectedItem();
         con=DashBoard.conn;
-        int count;
+        if(seedoc){
         try{
+            
             Statement stmt= con.createStatement();
-            String sql1="Select count(PatientID)  as count from Patient group by doctor_id having doctor_id=(select Did from doctor where name=?)";
+            String sql1="select token from Token where Docid=(select Did from doctor where name=?)";
             PreparedStatement prepare = con.prepareStatement(sql1);
             prepare.setString(1,doc);
             rs=prepare.executeQuery();
             if(rs.next()){
-                count=rs.getInt("count");
+                count=rs.getInt("token");
             }
             else
             {
                     count=0;
             }
-                txtId.setText(String.valueOf(count+1));
+                txtId.setText(String.valueOf(++count));
                 //JOptionPane.showMessageDialog( this, String.valueOf(rs.getInt("count")),"Error", JOptionPane.ERROR_MESSAGE);
             }
         catch(HeadlessException | SQLException |NullPointerException ex){
-            JOptionPane.showMessageDialog( this, "Error","Error", JOptionPane.ERROR_MESSAGE);
+//            JOptionPane.showMessageDialog( this, "Error","Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println(ex.getMessage());
             
-            
+        }
         }
         
         
@@ -562,6 +651,82 @@ try{
     private void cmbBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbBGActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbBGActionPerformed
+
+    private void getpidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getpidActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_getpidActionPerformed
+
+    private void seedocbutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seedocbutActionPerformed
+        String query="insert into current(pid) values(?)";
+        try{
+        PreparedStatement stm=con.prepareStatement(query);
+        stm.setString(1,patient);
+        
+        if(stm.executeUpdate() ==1){
+            JOptionPane.showMessageDialog( this, "Success","success", JOptionPane.OK_OPTION);
+            PreparedStatement prepare2=con.prepareStatement("update Token set token=? where Docid=(select Did from doctor where name=?);update Patient set doctor_id=?");
+                prepare2.setInt(1,count);
+                prepare2.setString(2, doc);
+                int i=prepare2.executeUpdate();
+                if(i<0){
+                    System.out.println("ERROR");
+                }
+            Reset();
+        }
+        }catch(Exception e){System.out.println(e.getMessage());}
+    }//GEN-LAST:event_seedocbutActionPerformed
+
+    private void btnGetDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetDataActionPerformed
+        seedoc=true;
+        int pid=Integer.parseInt(getpid.getText());
+        String query="select * from Patient where PatientID=?";
+        try{
+        PreparedStatement stm=con.prepareStatement(query);
+        stm.setInt(1,pid);
+        ResultSet rs=stm.executeQuery();
+        if(rs.next()){
+        txtName.setText(rs.getString("Patientname"));
+        txtFname.setText(rs.getString("FatherName"));
+        txtContact.setText(rs.getString("ContactNo"));
+        txtAdd.setText(rs.getString("Address"));
+        txtAge.setText(rs.getString("Age"));
+        txtEmail.setText(rs.getString("Email"));
+        txtHeight.setText(rs.getString("Height"));
+        txtWeight.setText(rs.getString("Weight"));
+        patient=rs.getString("PatientID");
+        pidtext.setText("Patient-"+patient);
+        btnSave.setEnabled(false);
+        cmbGender.setSelectedItem(rs.getString("Gen"));
+        btnUpdate.setEnabled(seedoc);
+        btnDelete.setEnabled(seedoc);
+        seedocbut.setEnabled(seedoc);
+        txtId.setEditable(seedoc);
+        listDoctor.setEnabled(seedoc);
+        rs.close();
+        stm.close();
+        }
+        else{
+            pidtext.setText("No Patient Found");
+            Reset();
+        }
+        
+        }catch(Exception e){System.out.println(e.getMessage());}
+        
+        
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_btnGetDataActionPerformed
+
+    private void cmbGenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbGenderActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbGenderActionPerformed
+
+    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -602,12 +767,14 @@ try{
     private javax.swing.JLabel Height;
     private javax.swing.JLabel Weight;
     public javax.swing.JButton btnDelete;
-    public javax.swing.JButton btnGetData;
+    private javax.swing.JButton btnGetData;
     public javax.swing.JButton btnNew;
     public javax.swing.JButton btnSave;
     public javax.swing.JButton btnUpdate;
     public javax.swing.JComboBox cmbBG;
     public javax.swing.JComboBox cmbGender;
+    public javax.swing.JButton detailsbut;
+    private javax.swing.JTextField getpid;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -623,6 +790,8 @@ try{
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> listDoctor;
+    private javax.swing.JLabel pidtext;
+    private javax.swing.JButton seedocbut;
     public javax.swing.JTextField txtAdd;
     public javax.swing.JTextField txtAge;
     public javax.swing.JTextField txtContact;
