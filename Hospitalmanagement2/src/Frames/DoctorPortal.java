@@ -55,7 +55,7 @@ public class DoctorPortal extends javax.swing.JFrame {
             ageDisplay.setText(String.valueOf(pres.getInt("Age")));
             notesTextArea.setText(pres.getString("Remarks"));
             diseaseVariable.setText(pres.getString("disease"));
-           // checkupHistory(pres.getInt("PatientID"));
+            checkupHistory(pres.getInt("PatientID"));
 
         } else {
             System.out.print("check");
@@ -543,7 +543,7 @@ public class DoctorPortal extends javax.swing.JFrame {
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         // TODO add your handling code here:
         try {
-           /* Connection con = DashBoard.conn;
+        Connection con = DashBoard.conn;
         String disease = diseaseVariable.getText();
 //        String description = jTextArea1.getText();
         String notes = notesTextArea.getText();
@@ -569,10 +569,7 @@ public class DoctorPortal extends javax.swing.JFrame {
         st.executeUpdate();
         st.close();
         stm.close();
-            nextAvail();
-            
-            */
-          currPatient();
+        currPatient();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
