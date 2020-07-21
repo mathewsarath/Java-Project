@@ -17,6 +17,12 @@ public class NewJFrame2 extends javax.swing.JFrame {
     public NewJFrame2() {
         initComponents();
         setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        
+    }
+    public NewJFrame2(DoctorPortal doc){
+        this();
+        doc.dispose();
+        
     }
 
     /**

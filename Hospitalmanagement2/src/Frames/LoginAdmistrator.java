@@ -207,6 +207,8 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             Registration form=new Registration();
             form.setVisible(true);
             form.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+            form.addWindowListener(new WindowClose());
+            db.setVisible(false);
         }
         this.dispose();
     }
