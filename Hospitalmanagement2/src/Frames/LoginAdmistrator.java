@@ -209,6 +209,7 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             form.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
             form.addWindowListener(new WindowClose());
             db.setVisible(false);
+
         }
         else if (loginName.equals("nurse")){
             NursePortal np=new NursePortal(res);

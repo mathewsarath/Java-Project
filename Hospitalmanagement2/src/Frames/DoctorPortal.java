@@ -10,7 +10,7 @@ public class DoctorPortal extends javax.swing.JFrame {
      * Creates new form DoctorPortal
      */
     private ResultSet result, pres;
-    private int id,token=0;
+    private int id;
 
     public DoctorPortal(ResultSet res) {
         this.result = res;
@@ -24,7 +24,7 @@ public class DoctorPortal extends javax.swing.JFrame {
             jLabel2.setText(spec.toUpperCase());
             jLabel1.setText(new java.util.Date().toString());
             currPatient();
-            System.out.println("doctor portal work");
+            //System.out.println("doctor portal work");
         } catch (SQLException e) {
             System.out.println("doctor portal");
         }
@@ -36,13 +36,11 @@ public class DoctorPortal extends javax.swing.JFrame {
     }
 
     private void currPatient() throws SQLException {
-        token++;
-        String query = "SELECT * from Patient NATURAL JOIN current where  doctor_id="+String.valueOf(id)+" and currentid="+String.valueOf(token)+" ;";
+        String query = "SELECT * from Patient INNER JOIN current ON Patient.PatientID=current.pid WHERE doctor_id="+String.valueOf(id)+" ORDER BY currentid LIMIT 1" ;
         Connection con = DashBoard.conn;
         Statement st=con.createStatement();
         ResultSet res = st.executeQuery(query);
         pres = res;
-        System.out.print ("this is token:"+token);
         nextAvail();
     }
 
@@ -59,8 +57,8 @@ public class DoctorPortal extends javax.swing.JFrame {
 
         } else {
             System.out.print("check");
-            new NewJFrame2().setVisible(true);
-            this.dispose();
+            new NewJFrame2(this).setVisible(true);
+
         }
     }
 
@@ -549,7 +547,7 @@ public class DoctorPortal extends javax.swing.JFrame {
         String notes = notesTextArea.getText();
         String query = "UPDATE Patient SET  disease=?,notes=?  WHERE patientID=?;";
         String q2="insert into checkup(cid,date,pid) values(null,?,?)";
-        String q3="delete from current where pid=?";
+        String q3="delete from current where PatientID=?";
         PreparedStatement s=con.prepareStatement(q3);
         s.setString(1,pres.getString("PatientID"));
         int i=s.executeUpdate();

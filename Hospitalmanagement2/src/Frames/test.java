@@ -16,7 +16,7 @@ public class test {
     static private void currPatient(int i,Connection c) throws SQLException {
         i++;
         int id=1;
-       String query = "SELECT PatientID as sum FROM Patient NATURAL JOIN current WHERE doctor_id=2;";
+       String query = "SELECT * from Patient INNER JOIN current ON Patient.PatientID=current.pid WHERE doctor_id=1 ORDER BY currentid LIMIT 1";
         PreparedStatement st=c.prepareStatement(query);
        // st.setInt(0,id);
         //st.setInt(1,i);
