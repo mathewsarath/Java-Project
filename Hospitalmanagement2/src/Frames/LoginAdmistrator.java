@@ -178,7 +178,7 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             PreparedStatement prepare = con.prepareStatement(query);
             prepare.setInt(1, Integer.parseInt(userName));
             prepare.setString(2, new String(password));
-            prepare.setString(3, new String(loginName));
+            prepare.setString(3, loginName);
             ResultSet res = prepare.executeQuery();
             System.out.println(res);
             if (res.next()) {
@@ -208,6 +208,14 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             form.setVisible(true);
             form.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
             form.addWindowListener(new WindowClose());
+            db.setVisible(false);
+
+        }
+        else if (loginName.equals("nurse")){
+            NursePortal np=new NursePortal(res);
+            np.setVisible(true);
+            np.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+            np.addWindowListener(new WindowClose());
             db.setVisible(false);
         }
         this.dispose();

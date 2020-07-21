@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 20, 2020 at 07:00 PM
+-- Generation Time: Jul 21, 2020 at 06:50 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.4
 
@@ -110,7 +110,53 @@ CREATE TABLE `doctor` (
 INSERT INTO `doctor` (`Did`, `name`, `sex`, `specialized`, `incomeid`, `password`, `Type`, `house`, `place`, `district`, `state`, `pin`, `contact`) VALUES
 (1, 'ram', 'male', 'dermatology', 23, 'hello', 'doctor', 'punjabi', 'karikode', 'kollam', 'kerala', '12345', 123456789),
 (2, 'raju', 'male', 'cardiac', 43, 'qwerty', 'doctor', 'melepura', 'ottapalam', 'kollam', 'kerala', '45893', 934678293),
-(3, 'david', 'M', '', 12000, '1234', 'reception', 'kaithapura', 'keezgmad', 'kollam', 'kerala', '567893', 123456789);
+(3, 'david', 'M', '', 12000, '1234', 'reception', 'kaithapura', 'keezgmad', 'kollam', 'kerala', '567893', 123456789),
+(13, 'indu', 'F', 'gyno', 12345, '123', 'nurse', 'kalaparamb', 'karikode', 'kollam', 'kerala', '3456789', 987654321);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Lab`
+--
+
+CREATE TABLE `Lab` (
+  `labid` int(11) NOT NULL,
+  `test` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `Lab`
+--
+
+INSERT INTO `Lab` (`labid`, `test`) VALUES
+(1, 'BP'),
+(2, 'Blood'),
+(4, 'Xray'),
+(5, 'MRI'),
+(6, 'urine');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `labPatient`
+--
+
+CREATE TABLE `labPatient` (
+  `labid` int(8) NOT NULL,
+  `cid` int(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `labPatient`
+--
+
+INSERT INTO `labPatient` (`labid`, `cid`) VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 3),
+(1, 4),
+(4, 1);
 
 -- --------------------------------------------------------
 
@@ -164,11 +210,33 @@ CREATE TABLE `Patient` (
 --
 
 INSERT INTO `Patient` (`PatientID`, `Patientname`, `Gen`, `Height`, `Weight`, `Age`, `disease`, `roomid`, `billid`, `doctor_id`, `description`, `notes`, `Remarks`, `ContactNo`, `Address`, `BG`, `FatherName`, `Email`) VALUES
-(1, 'kuttan', 'M', 169.56, 62.4, 26, 'chrone', '', 4, 1, '2eqwfdrgtfy', '3e2wre4gth', '3e2wre4gth', '0', '', '', '', ''),
-(2, 'njbg', 'M', NULL, NULL, 19, NULL, NULL, NULL, 2, NULL, NULL, 'tehnnnnnnnnnnnnnn', '1234567890', 'y4bbbbbb', 'O+', NULL, NULL),
+(1, 'kuttan', 'M', 169.56, 62.4, 26, 'chrone', 'a-202', 4, 1, '2eqwfdrgtfy', '3e2wre4gth', '3e2wre4gth', '0', '', '', '', ''),
+(2, 'njbg', 'M', NULL, NULL, 19, NULL, 'a-202', NULL, 2, NULL, NULL, 'tehnnnnnnnnnnnnnn', '1234567890', 'y4bbbbbb', 'O+', NULL, NULL),
 (3, 'sxdcfvg', 'M', 169, 49, 56, NULL, NULL, NULL, 1, NULL, NULL, 'rtgyhuj', '1234567890', 'cvbnm', 'O+', 'zxcvbnm', 'wertyuiokfdsa'),
 (4, 'wexrcftv', 'F', 165, 59, 67, NULL, NULL, NULL, 2, NULL, NULL, 'tvybgh', '987654321', 'qwertyuiolkjhgfdsazxcvbnm', 'A-', 'zesxdrcftvg', 'ercdftvgybhnj'),
-(5, 'rredc', 'F', 178, 67, 35, NULL, NULL, NULL, 1, NULL, NULL, 'tyguh', 'vgbh', 'dcfgvhb', 'A+', '6trvg', 'vghb');
+(5, 'rredc', 'F', 178, 67, 35, NULL, 'a-104', NULL, 1, NULL, NULL, 'tyguh', 'vgbh', 'dcfgvhb', 'A+', '6trvg', 'vghb');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `room`
+--
+
+CREATE TABLE `room` (
+  `roomid` int(8) NOT NULL,
+  `roomnum` varchar(8) NOT NULL,
+  `nurseid` int(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `room`
+--
+
+INSERT INTO `room` (`roomid`, `roomnum`, `nurseid`) VALUES
+(1, 'a-202', 13),
+(2, 'a-203', 13),
+(3, 'a-104', 2),
+(4, 'a-106', 2);
 
 -- --------------------------------------------------------
 
@@ -212,6 +280,12 @@ ALTER TABLE `doctor`
   ADD PRIMARY KEY (`Did`);
 
 --
+-- Indexes for table `Lab`
+--
+ALTER TABLE `Lab`
+  ADD PRIMARY KEY (`labid`);
+
+--
 -- Indexes for table `medicine`
 --
 ALTER TABLE `medicine`
@@ -222,6 +296,12 @@ ALTER TABLE `medicine`
 --
 ALTER TABLE `Patient`
   ADD PRIMARY KEY (`PatientID`);
+
+--
+-- Indexes for table `room`
+--
+ALTER TABLE `room`
+  ADD PRIMARY KEY (`roomid`);
 
 --
 -- Indexes for table `Token`
@@ -249,7 +329,13 @@ ALTER TABLE `current`
 -- AUTO_INCREMENT for table `doctor`
 --
 ALTER TABLE `doctor`
-  MODIFY `Did` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `Did` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `Lab`
+--
+ALTER TABLE `Lab`
+  MODIFY `labid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `medicine`
@@ -262,6 +348,12 @@ ALTER TABLE `medicine`
 --
 ALTER TABLE `Patient`
   MODIFY `PatientID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `room`
+--
+ALTER TABLE `room`
+  MODIFY `roomid` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
