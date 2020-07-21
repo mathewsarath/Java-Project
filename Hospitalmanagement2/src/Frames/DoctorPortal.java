@@ -36,7 +36,7 @@ public class DoctorPortal extends javax.swing.JFrame {
     }
 
     private void currPatient() throws SQLException {
-        String query = "SELECT * from Patient NATURAL JOIN current WHERE doctor_id="+String.valueOf(id)+" ORDER BY currentid LIMIT 1" ;
+        String query = "SELECT * from Patient INNER JOIN current ON Patient.PatientID=current.pid WHERE doctor_id="+String.valueOf(id)+" ORDER BY currentid LIMIT 1" ;
         Connection con = DashBoard.conn;
         Statement st=con.createStatement();
         ResultSet res = st.executeQuery(query);

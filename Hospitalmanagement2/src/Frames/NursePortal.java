@@ -391,7 +391,10 @@ public class NursePortal extends javax.swing.JFrame {
     }//GEN-LAST:event_plistActionPerformed
 
     private void medbutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medbutActionPerformed
-        new NurseMedicine(currpat).setVisible(true);
+        NurseMedicine nm=new NurseMedicine(currpat);
+        nm.setVisible(true);
+        nm.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+       
     }//GEN-LAST:event_medbutActionPerformed
 
     /**
