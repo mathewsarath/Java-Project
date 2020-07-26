@@ -172,13 +172,13 @@ public class LoginAdmistrator extends javax.swing.JFrame {
     }//GEN-LAST:event_submitButtonMouseClicked
     private void loginDatabase() {
         String tableName="doctor";
-        String query = "select * from " + tableName+ " where Did=? and password=? and Type=?";
+        String query = "select * from " + tableName+ " where Did=? and password=? ";//and Type=?
         Connection con = DashBoard.conn;
         try {
             PreparedStatement prepare = con.prepareStatement(query);
             prepare.setInt(1, Integer.parseInt(userName));
             prepare.setString(2, new String(password));
-            prepare.setString(3, loginName);
+            //prepare.setString(3, loginName);
             ResultSet res = prepare.executeQuery();
             System.out.println(res);
             if (res.next()) {
@@ -193,8 +193,8 @@ public class LoginAdmistrator extends javax.swing.JFrame {
 
     }
 
-    private void gotoScreen(ResultSet res) {
-        if (loginName.equals("doctor")) {
+    private void gotoScreen(ResultSet res) throws SQLException {
+        if (loginName.equals("doctor") && res.getString("Type").equals("doctor")) {
             NewJFrame docLog=new NewJFrame(res);
             docLog.setVisible(true);
             docLog.addWindowListener(new WindowClose());
@@ -202,7 +202,7 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             db.setVisible(false);
 
         }
-        else if (loginName.equals("reception"))
+        else if (loginName.equals("reception") && res.getString("Type").equals("reception"))
         {
             Registration form=new Registration();
             form.setVisible(true);
@@ -211,19 +211,43 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             db.setVisible(false);
 
         }
-        else if (loginName.equals("nurse")){
+        else if (loginName.equals("nurse") && res.getString("Type").equals("nurse")){
             NursePortal np=new NursePortal(res);
             np.setVisible(true);
             np.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
             np.addWindowListener(new WindowClose());
             db.setVisible(false);
         }
-        else if(loginName.equals("lab")){
-            Lab lb=new Lab(res);
-            lb.setVisible(true);
-            lb.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
-            lb.addWindowListener(new WindowClose());
-            db.setVisible(false);
+        else if(loginName.equals("Manage")){
+            System.out.print(res.getString("Type"));
+        try {
+            if(res.getString("Type").equals("Admin")){
+                    AdminPage admin = new AdminPage();
+                    admin.setVisible(true);
+                    admin.pack();
+                    admin.setLocationRelativeTo(null);
+                    admin.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+                    admin.addWindowListener(new WindowClose());
+                    db.setVisible(false);
+                    
+
+                 }
+            else{
+                
+                     ManageDatabase mdb = new ManageDatabase();
+                     mdb.setVisible(true);
+                     mdb.pack();
+                     mdb.setLocationRelativeTo(null);
+                     mdb.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        
+            }
+        }
+        catch(SQLException e){
+            System.out.println("Invalid sql command");
+                }
+
+
+>>>>>>> 81f025e8908d9460d47a12fc172d2f0cb9585f1f
         }
         this.dispose();
     }

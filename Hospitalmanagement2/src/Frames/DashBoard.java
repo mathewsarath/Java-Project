@@ -106,6 +106,11 @@ public class DashBoard extends javax.swing.JFrame {
                 AdminButtonMouseClicked(evt);
             }
         });
+        AdminButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AdminButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -391,7 +396,9 @@ public class DashBoard extends javax.swing.JFrame {
 
     private void AdminButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AdminButtonMouseClicked
         // TODO add your handling code here:
-                try{
+        CreateLoginPage("Manage");
+      /*  
+                 try{
         AdminPage admin = new AdminPage();
         admin.setVisible(true);
         admin.pack();
@@ -402,8 +409,12 @@ public class DashBoard extends javax.swing.JFrame {
         catch(Exception e){
             System.out.print("An error occured while creating new page");
         }
-        
+        */
     }//GEN-LAST:event_AdminButtonMouseClicked
+
+    private void AdminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AdminButtonActionPerformed
 
     /**
      * @param args the command line arguments

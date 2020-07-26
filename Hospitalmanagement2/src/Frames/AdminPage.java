@@ -46,8 +46,18 @@ public class AdminPage extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(26, 188, 156), 3));
 
         MngDoctor.setText("Mange Doctors");
+        MngDoctor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MngDoctorMouseClicked(evt);
+            }
+        });
 
         MngNurse.setText("Manage Nurses");
+        MngNurse.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MngNurseMouseClicked(evt);
+            }
+        });
 
         MngDataBase.setText("Manage Database");
         MngDataBase.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -150,6 +160,27 @@ public class AdminPage extends javax.swing.JFrame {
             System.out.print("An error occured while creating new page");
         }
     }//GEN-LAST:event_MngDataBaseMouseClicked
+
+    private void MngDoctorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MngDoctorMouseClicked
+        // TODO add your handling code here:
+        String Type="doctor";
+        AddRem ar=new AddRem(Type);
+        ar.setVisible(true);
+        ar.pack();
+        ar.setLocationRelativeTo(null);
+        ar.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        
+    }//GEN-LAST:event_MngDoctorMouseClicked
+
+    private void MngNurseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MngNurseMouseClicked
+        // TODO add your handling code here:
+        String Type="nurse";
+        AddRem ar=new AddRem(Type);
+        ar.setVisible(true);
+        ar.pack();
+        ar.setLocationRelativeTo(null);
+        ar.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_MngNurseMouseClicked
 
     /**
      * @param args the command line arguments

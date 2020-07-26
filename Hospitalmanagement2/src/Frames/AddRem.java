@@ -6,7 +6,6 @@
 package Frames;
 
 import hospitalmanagement2.*;
-
 /**
  *
  * @author aswin
@@ -16,8 +15,14 @@ public class AddRem extends javax.swing.JFrame {
     /**
      * Creates new form AddRem
      */
-    public AddRem() {
+    private String Type;
+    public AddRem(){
         initComponents();
+    }
+    public AddRem(String Type) {
+        this();
+        this.Type=Type;
+
     }
 
     /**
@@ -38,6 +43,11 @@ public class AddRem extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(26, 188, 156));
 
         AddButton.setText("Add");
+        AddButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AddButtonMouseClicked(evt);
+            }
+        });
 
         RemoveButton.setText("Remove");
 
@@ -75,6 +85,16 @@ public class AddRem extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void AddButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddButtonMouseClicked
+        // TODO add your handling code here:
+        Administrator ap=new Administrator(Type);
+        ap.setVisible(true);
+        ap.pack();
+        ap.setLocationRelativeTo(null);
+        ap.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        dispose();
+    }//GEN-LAST:event_AddButtonMouseClicked
 
     /**
      * @param args the command line arguments
