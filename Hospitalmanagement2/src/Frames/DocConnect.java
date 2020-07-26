@@ -10,7 +10,7 @@ import java.sql.*;
  * @author aswin
  */
 public class DocConnect {
-    private static String url = "jdbc:mysql://localhost:";
+    private static String url = "jdbc:mysql://sql12.freemysqlhosting.net:";
     private static String user,password;
     public DocConnect(String url,String portNum,String user,String password){
         this.url=this.url+portNum+"/"+url;

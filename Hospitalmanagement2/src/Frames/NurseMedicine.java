@@ -34,7 +34,7 @@ public class NurseMedicine extends javax.swing.JFrame {
         con=DashBoard.conn;
         int i=0;
         name.setText("Patient ID -"+patid);
-        String query="SELECT * from labPatient inner join checkup on labPatient.cid=checkup.cid inner join Lab on labPatient.labid=Lab.labid where pid=? order by date desc";
+        String query="SELECT * from labPatient inner join checkup on labPatient.cid=checkup.cid inner join Lab on labPatient.labid=Lab.labid where pid=? order by checkup.cid desc";
         try{
         PreparedStatement stm=con.prepareStatement(query);
         stm.setString(1,patid);
@@ -58,7 +58,7 @@ public class NurseMedicine extends javax.swing.JFrame {
         con=DashBoard.conn;
         int i=0;
         name.setText("Patient ID -"+patid);
-        String query="SELECT * from check_med inner join checkup on check_med.checkid=checkup.cid inner join medicine on check_med.mid=medicine.mid where pid=? order by date desc";
+        String query="SELECT * from check_med inner join checkup on check_med.checkid=checkup.cid inner join medicine on check_med.mid=medicine.mid where pid=? order by checkup.cid desc";
         try{
         PreparedStatement stm=con.prepareStatement(query);
         stm.setString(1,patid);

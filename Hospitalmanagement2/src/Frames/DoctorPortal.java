@@ -545,26 +545,35 @@ public class DoctorPortal extends javax.swing.JFrame {
         String disease = diseaseVariable.getText();
 //        String description = jTextArea1.getText();
         String notes = notesTextArea.getText();
-        String query = "UPDATE Patient SET  disease=?,notes=?  WHERE patientID=?;";
-        String q2="insert into checkup(cid,date,pid) values(null,?,?)";
-        String q3="delete from current where PatientID=?";
+        
+        
+        
+        
+        String q3="delete from current where pid=?";
         PreparedStatement s=con.prepareStatement(q3);
         s.setString(1,pres.getString("PatientID"));
+        System.out.println("hello");
         int i=s.executeUpdate();
         if(i>0){
         s.close();
         }
+        
+        String q2="insert into checkup(cid,date,pid) values(null,?,?)";
         PreparedStatement st=con.prepareStatement(q2);
         st.setString(1,jLabel1.getText());
         st.setInt(2,pres.getInt("PatientID"));
-//        System.out.println(q2);
+        st.executeUpdate();
+        System.out.println("hello");
+
+        String query = "UPDATE Patient SET  disease=?,notes=?  WHERE PatientID=?;";
         PreparedStatement stm=con.prepareStatement(query);
         stm.setString(1,disease);
 //        stm.setString(2,description);
         stm.setString(2,notes);
         stm.setInt(3,pres.getInt("PatientID"));
         stm.executeUpdate();
-        st.executeUpdate();
+        
+        System.out.println("hello");
         st.close();
         stm.close();
         currPatient();

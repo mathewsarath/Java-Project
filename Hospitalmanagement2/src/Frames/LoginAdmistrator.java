@@ -218,6 +218,13 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             np.addWindowListener(new WindowClose());
             db.setVisible(false);
         }
+        else if(loginName.equals("lab")){
+            Lab lb=new Lab(res);
+            lb.setVisible(true);
+            lb.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+            lb.addWindowListener(new WindowClose());
+            db.setVisible(false);
+        }
         this.dispose();
     }
 
