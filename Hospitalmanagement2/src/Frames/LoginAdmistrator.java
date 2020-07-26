@@ -218,7 +218,7 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             np.addWindowListener(new WindowClose());
             db.setVisible(false);
         }
-        else if(loginName.equals("lab")&& res.getString("Type").equals("nurse")){
+        else if(loginName.equals("lab")&& res.getString("Type").equals("lab")){
             Lab lb=new Lab(res);
             lb.setVisible(true);
             lb.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);

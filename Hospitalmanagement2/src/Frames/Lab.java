@@ -14,7 +14,7 @@ public class Lab extends javax.swing.JFrame {
     /**
      * Creates new form Lab
      */
-    String currpat;
+    String currpat,currcheckid;
     ResultSet res;
     Connection con=DashBoard.conn;
     public Lab(ResultSet res){
@@ -55,7 +55,7 @@ public class Lab extends javax.swing.JFrame {
         try{
         int i=1;
         String carr[]; 
-        String query="select PatientID,Patientname from labPatient natural join checkup inner join Patient on checkup.pid=Patient.PatientID where finish=0";
+        String query="select PatientID,Patientname from checkup inner join Patient on checkup.pid=Patient.PatientID where labfinish=0";
         Statement stm=con.createStatement();
         ResultSet check = stm.executeQuery(query);
             check.last();
@@ -431,7 +431,7 @@ public class Lab extends javax.swing.JFrame {
     }//GEN-LAST:event_historyActionPerformed
 
     private void finishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishActionPerformed
-        String query="update (select PatientID,Patientname from labPatient natural join checkup inner join Patient on checkup.pid=Patient.PatientID where finish=0 and checkup.pid=?";
+        String query="update checkup set labfinish=1 where pid=?";
         try{
             PreparedStatement stm=con.prepareStatement(query);
             stm.setString(1, currpat);
@@ -439,7 +439,7 @@ public class Lab extends javax.swing.JFrame {
             if(i>0){
                 System.out.println("success");
             }
-            
+            Reset();
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
@@ -471,6 +471,7 @@ public class Lab extends javax.swing.JFrame {
     }//GEN-LAST:event_urineActionPerformed
 
     private void patselectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patselectActionPerformed
+        Reset();
         String sel=(String)patselect.getSelectedItem();
         currpat=sel.split("-")[0];
         String query="select Patientname,Age,Gen,disease,notes from Patient where PatientID=?";
@@ -487,6 +488,28 @@ public class Lab extends javax.swing.JFrame {
         }
         history.setEnabled(true);
         finish.setEnabled(true);
+        
+        String q="select labid from labPatient natural join checkup where checkup.pid=? and checkup.labfinish=0";
+        PreparedStatement s=con.prepareStatement(q);
+        s.setString(1,currpat);
+        ResultSet r=s.executeQuery();
+        while(r.next()){
+            if(r.getString("labid").equals("1")){
+                bp.setEnabled(true);
+            }
+            if(r.getString("labid").equals("2")){
+                blood.setEnabled(true);
+            }
+            if(r.getString("labid").equals("4")){
+                xray.setEnabled(true);
+            }
+            if(r.getString("labid").equals("5")){
+                mri.setEnabled(true);
+            }
+            if(r.getString("labid").equals("6")){
+                urine.setEnabled(true);
+            }
+        }
                 
                 }catch(SQLException e){
                     System.out.println(e.getMessage());
