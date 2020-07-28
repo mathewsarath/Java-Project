@@ -564,8 +564,6 @@ public class DoctorPortal extends javax.swing.JFrame {
         String disease = diseaseVariable.getText();
 //        String description = jTextArea1.getText();
         String notes = notesTextArea.getText();
-        String query = "UPDATE Patient SET  disease=?,notes=?  WHERE patientID=?;";
-        String q2="insert into checkup(cid,date,pid) values(null,?,?)";
         boolean b=lab.isSelected();
         int finish=0;
         if(b){
