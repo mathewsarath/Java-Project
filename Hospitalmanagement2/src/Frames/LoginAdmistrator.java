@@ -218,6 +218,13 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             np.addWindowListener(new WindowClose());
             db.setVisible(false);
         }
+        else if(loginName.equals("lab")&& res.getString("Type").equals("lab")){
+            Lab lb=new Lab(res);
+            lb.setVisible(true);
+            lb.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+            lb.addWindowListener(new WindowClose());
+            db.setVisible(false);
+        }
         else if(loginName.equals("Manage")){
             System.out.print(res.getString("Type"));
         try {
@@ -245,7 +252,6 @@ public class LoginAdmistrator extends javax.swing.JFrame {
         catch(SQLException e){
             System.out.println("Invalid sql command");
                 }
-
 
         }
         this.dispose();
