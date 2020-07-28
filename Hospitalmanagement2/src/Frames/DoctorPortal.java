@@ -547,7 +547,7 @@ public class DoctorPortal extends javax.swing.JFrame {
         String notes = notesTextArea.getText();
         String query = "UPDATE Patient SET  disease=?,notes=?  WHERE patientID=?;";
         String q2="insert into checkup(cid,date,pid) values(null,?,?)";
-        String q3="delete from current where PatientID=?";
+        String q3="delete from current where pid=?";
         PreparedStatement s=con.prepareStatement(q3);
         s.setString(1,pres.getString("PatientID"));
         int i=s.executeUpdate();

@@ -100,7 +100,7 @@ public class DashBoard extends javax.swing.JFrame {
             .addGap(0, 193, Short.MAX_VALUE)
         );
 
-        AdminButton.setText("Admin");
+        AdminButton.setText("Manage");
         AdminButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 AdminButtonMouseClicked(evt);

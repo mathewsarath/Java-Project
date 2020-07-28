@@ -153,7 +153,7 @@ public class ManageDatabase extends javax.swing.JFrame {
 //        userName=userNameField.getText();
 //        pswd=PasswordField.getPassword();
 //        portNum=portField.getText();
-        new DocConnect("Demo","3307","root",String.valueOf(""));
+        new DocConnect("sql12356451","3306","sql12356451",String.valueOf("Q9UeCwVkYC"));
          try{
        DocConnect.connect();
 //       Connection conn=DocConnect.conn;
