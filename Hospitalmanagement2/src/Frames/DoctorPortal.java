@@ -80,7 +80,8 @@ public class DoctorPortal extends javax.swing.JFrame {
         } else {
             System.out.print("check");
             new NewJFrame2(this).setVisible(true);
-
+            
+            
         }
     }
 
@@ -569,7 +570,7 @@ public class DoctorPortal extends javax.swing.JFrame {
         if(b){
             String sql2="SELECT `AUTO_INCREMENT`\n" +
             "FROM  INFORMATION_SCHEMA.TABLES\n" +
-            "WHERE TABLE_SCHEMA = 'sql12356451'\n" +
+            "WHERE TABLE_SCHEMA = 'Demo'\n" +
             "AND   TABLE_NAME   = 'checkup';";
             String labs="insert into labPatient(labid,cid) values(?,?)";
             Statement st=con.createStatement();

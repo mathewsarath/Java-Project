@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 21, 2020 at 06:50 PM
+-- Generation Time: Jul 29, 2020 at 09:48 PM
 -- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.4
+-- PHP Version: 7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -30,17 +31,18 @@ SET time_zone = "+00:00";
 CREATE TABLE `checkup` (
   `cid` int(11) NOT NULL,
   `date` varchar(50) NOT NULL,
-  `pid` int(8) NOT NULL
+  `pid` int(8) NOT NULL,
+  `labfinish` int(2) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `checkup`
 --
 
-INSERT INTO `checkup` (`cid`, `date`, `pid`) VALUES
-(1, 'enthelum', 2),
-(2, 'vere enthelum', 2),
-(8, 'Tue Jul 14 22:28:02 IST 2020', 2);
+INSERT INTO `checkup` (`cid`, `date`, `pid`, `labfinish`) VALUES
+(1, 'enthelum', 2, 0),
+(2, 'vere enthelum', 2, 0),
+(8, 'Tue Jul 14 22:28:02 IST 2020', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -111,7 +113,8 @@ INSERT INTO `doctor` (`Did`, `name`, `sex`, `specialized`, `incomeid`, `password
 (1, 'ram', 'male', 'dermatology', 23, 'hello', 'doctor', 'punjabi', 'karikode', 'kollam', 'kerala', '12345', 123456789),
 (2, 'raju', 'male', 'cardiac', 43, 'qwerty', 'doctor', 'melepura', 'ottapalam', 'kollam', 'kerala', '45893', 934678293),
 (3, 'david', 'M', '', 12000, '1234', 'reception', 'kaithapura', 'keezgmad', 'kollam', 'kerala', '567893', 123456789),
-(13, 'indu', 'F', 'gyno', 12345, '123', 'nurse', 'kalaparamb', 'karikode', 'kollam', 'kerala', '3456789', 987654321);
+(13, 'indu', 'F', 'gyno', 12345, '123', 'nurse', 'kalaparamb', 'karikode', 'kollam', 'kerala', '3456789', 987654321),
+(17, 'Hannah', 'f', NULL, 2009, '13rw', 'pharmasist', 'blubber house', 'kodungalloor', 'ernakulam', 'kerala', '650897', 1123765456);
 
 -- --------------------------------------------------------
 
@@ -166,17 +169,22 @@ INSERT INTO `labPatient` (`labid`, `cid`) VALUES
 
 CREATE TABLE `medicine` (
   `mid` int(8) NOT NULL,
-  `mname` varchar(30) NOT NULL
+  `mname` varchar(30) NOT NULL,
+  `Manufacturer` varchar(20) NOT NULL,
+  `expdate` varchar(5) NOT NULL,
+  `price` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `medicine`
 --
 
-INSERT INTO `medicine` (`mid`, `mname`) VALUES
-(1, 'paracetamol'),
-(2, 'bryonia'),
-(3, 'strepstrills');
+INSERT INTO `medicine` (`mid`, `mname`, `Manufacturer`, `expdate`, `price`) VALUES
+(1, 'paracetamol', 'Sun pharmaceuticals', '02/23', 1),
+(2, 'bryonia', 'Cipla', '04/21', 95),
+(3, 'strepstrills', 'Reckit Benckiser', '02/22', 30),
+(4, 'acetaminophen', 'Lupin', '06/21', 25),
+(5, 'Amoxicillin', 'Lloyd pharma', '03/22', 75);
 
 -- --------------------------------------------------------
 
@@ -202,19 +210,20 @@ CREATE TABLE `Patient` (
   `Address` text NOT NULL,
   `BG` varchar(3) NOT NULL,
   `FatherName` varchar(30) DEFAULT NULL,
-  `Email` varchar(30) DEFAULT NULL
+  `Email` varchar(30) DEFAULT NULL,
+  `flag` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `Patient`
 --
 
-INSERT INTO `Patient` (`PatientID`, `Patientname`, `Gen`, `Height`, `Weight`, `Age`, `disease`, `roomid`, `billid`, `doctor_id`, `description`, `notes`, `Remarks`, `ContactNo`, `Address`, `BG`, `FatherName`, `Email`) VALUES
-(1, 'kuttan', 'M', 169.56, 62.4, 26, 'chrone', 'a-202', 4, 1, '2eqwfdrgtfy', '3e2wre4gth', '3e2wre4gth', '0', '', '', '', ''),
-(2, 'njbg', 'M', NULL, NULL, 19, NULL, 'a-202', NULL, 2, NULL, NULL, 'tehnnnnnnnnnnnnnn', '1234567890', 'y4bbbbbb', 'O+', NULL, NULL),
-(3, 'sxdcfvg', 'M', 169, 49, 56, NULL, NULL, NULL, 1, NULL, NULL, 'rtgyhuj', '1234567890', 'cvbnm', 'O+', 'zxcvbnm', 'wertyuiokfdsa'),
-(4, 'wexrcftv', 'F', 165, 59, 67, NULL, NULL, NULL, 2, NULL, NULL, 'tvybgh', '987654321', 'qwertyuiolkjhgfdsazxcvbnm', 'A-', 'zesxdrcftvg', 'ercdftvgybhnj'),
-(5, 'rredc', 'F', 178, 67, 35, NULL, 'a-104', NULL, 1, NULL, NULL, 'tyguh', 'vgbh', 'dcfgvhb', 'A+', '6trvg', 'vghb');
+INSERT INTO `Patient` (`PatientID`, `Patientname`, `Gen`, `Height`, `Weight`, `Age`, `disease`, `roomid`, `billid`, `doctor_id`, `description`, `notes`, `Remarks`, `ContactNo`, `Address`, `BG`, `FatherName`, `Email`, `flag`) VALUES
+(1, 'kuttan', 'M', 169.56, 62.4, 26, 'chrone', 'a-202', 4, 1, '2eqwfdrgtfy', '3e2wre4gth', '3e2wre4gth', '0', '', '', '', '', 1),
+(2, 'njbg', 'M', NULL, NULL, 19, NULL, 'a-202', NULL, 2, NULL, NULL, 'tehnnnnnnnnnnnnnn', '1234567890', 'y4bbbbbb', 'O+', NULL, NULL, 0),
+(3, 'sxdcfvg', 'M', 169, 49, 56, NULL, NULL, NULL, 1, NULL, NULL, 'rtgyhuj', '1234567890', 'cvbnm', 'O+', 'zxcvbnm', 'wertyuiokfdsa', 0),
+(4, 'wexrcftv', 'F', 165, 59, 67, NULL, NULL, NULL, 2, NULL, NULL, 'tvybgh', '987654321', 'qwertyuiolkjhgfdsazxcvbnm', 'A-', 'zesxdrcftvg', 'ercdftvgybhnj', 0),
+(5, 'rredc', 'F', 178, 67, 35, NULL, 'a-104', NULL, 1, NULL, NULL, 'tyguh', 'vgbh', 'dcfgvhb', 'A+', '6trvg', 'vghb', 0);
 
 -- --------------------------------------------------------
 
@@ -329,7 +338,7 @@ ALTER TABLE `current`
 -- AUTO_INCREMENT for table `doctor`
 --
 ALTER TABLE `doctor`
-  MODIFY `Did` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `Did` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `Lab`
@@ -341,7 +350,7 @@ ALTER TABLE `Lab`
 -- AUTO_INCREMENT for table `medicine`
 --
 ALTER TABLE `medicine`
-  MODIFY `mid` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `mid` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `Patient`

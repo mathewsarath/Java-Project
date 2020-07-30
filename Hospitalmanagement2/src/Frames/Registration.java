@@ -547,7 +547,7 @@ try{
             String sql= "insert into Patient(Patientname,FatherName,Email,ContactNo,Age,Remarks,Gen,BG,Address,Height,Weight,doctor_id)values('"+ txtName.getText() + "','"+ txtFname.getText() + "','"+ txtEmail.getText() + "','"+ txtContact.getText() + "'," + txtAge.getText() + ",'"+ txtInfo.getText() + "','" + cmbGender.getSelectedItem() + "','"+ cmbBG.getSelectedItem() + "','" + txtAdd.getText() +"','" + txtHeight.getText() + "','" + txtWeight.getText() +"','"+docid+"')";
             String sql2="SELECT `AUTO_INCREMENT`\n" +
             "FROM  INFORMATION_SCHEMA.TABLES\n" +
-            "WHERE TABLE_SCHEMA = 'sql12356451'\n" +
+            "WHERE TABLE_SCHEMA = 'Demo'\n" +
             "AND   TABLE_NAME   = 'Patient';";
             pst=con.prepareStatement(sql);
             pst.execute();

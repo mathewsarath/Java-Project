@@ -225,6 +225,13 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             lb.addWindowListener(new WindowClose());
             db.setVisible(false);
         }
+        else if(loginName.equals("pharmasist")&& res.getString("Type").equals("pharmasist")){
+            NewJFrame5 ph=new NewJFrame5();
+            ph.setVisible(true);
+            ph.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+            ph.addWindowListener(new WindowClose());
+            db.setVisible(false);
+        }
         else if(loginName.equals("Manage")){
             System.out.print(res.getString("Type"));
         try {

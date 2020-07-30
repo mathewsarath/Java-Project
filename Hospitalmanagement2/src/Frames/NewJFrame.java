@@ -9,6 +9,8 @@ package Frames;
  * @author kootz
  */
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public class NewJFrame extends javax.swing.JFrame {
 
     /**
@@ -116,8 +118,18 @@ public class NewJFrame extends javax.swing.JFrame {
         });
 
         jButton2.setText("View my history");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Logout");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -173,19 +185,21 @@ public class NewJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         ResultSet res;
        try {
-           String query="SELECT doctor_id FROM Patient NATURAL JOIN current WHERE doctor_id="+docres.getString("Did")+" ;";
+           String query="SELECT doctor_id FROM Patient inner JOIN current on Patient.PatientID=current.pid WHERE doctor_id="+docres.getString("Did")+" ;";
            Statement st=DashBoard.conn.createStatement();
            res=st.executeQuery(query);
            if(res.next())
                 {
+                    System.out.println("ivide");
                  DoctorPortal docport=new DoctorPortal(docres);
                  docport.setVisible(true);
-                 docport.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);;
+                 docport.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
                 }
            else{
+               System.out.println("thivide");
                NewJFrame2 fr=new NewJFrame2();
                fr.setVisible(true);
-               fr.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);;
+               fr.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
            }
        }
        catch(SQLException e){
@@ -193,6 +207,25 @@ public class NewJFrame extends javax.swing.JFrame {
        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+        DoctorHistory nm=null;
+        try {
+            nm = new DoctorHistory(docres.getString("Did"));
+        } catch (SQLException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        nm.setVisible(true);
+        nm.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        
+        
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
