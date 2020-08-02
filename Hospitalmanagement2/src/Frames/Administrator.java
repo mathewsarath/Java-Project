@@ -246,10 +246,10 @@ public class Administrator extends javax.swing.JFrame {
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(placeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(contactField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(placeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -344,24 +344,26 @@ public class Administrator extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(specialisationField, "Invalid income Id or Contact Number");
         }
-        try{
-            if(name.isEmpty() || place.isEmpty() || specialized.isEmpty() || password.length==0 || confPassword.length==0 || place.isEmpty() || district.isEmpty() || state.isEmpty() || pin.isEmpty()  );//Checks for Empty entries
-            {
-                throw new IllegalStateException("Some fields are empty");
-            }
-            }
-        catch (IllegalStateException e){
-            JOptionPane.showMessageDialog(rootPane, e);
-        }
-        
-        if(Arrays.equals(password, confPassword))//Checks password and confirm password are same
+                if(Arrays.equals(password, confPassword))//Checks password and confirm password are same
         {
-            System.out.println(""+name+specialized+place+sex+password+confPassword);
+            System.out.println(""+name+specialized+place+sex+password.toString()+confPassword.toString()+incomeId+district+state+pin+Type+contact+house);
         }
         else
         {
                         JOptionPane.showMessageDialog(passwordField, "Invalid Password");
         }//rootPane
+        /*try{
+            if(name.isEmpty() || specialized.isEmpty() || password.length==0 || confPassword.length==0 || place.isEmpty() || district.isEmpty() || state.isEmpty() || pin.isEmpty()  );//Checks for Empty entries
+            {
+                throw new IllegalStateException("Some fields are empty");
+
+            }
+            }
+        catch (IllegalStateException e){
+            JOptionPane.showMessageDialog(rootPane, e);
+        }*/
+        
+
         try{
            String query = "INSERT INTO doctor (name,sex,specialized,incomeid,password,Type,house,place,district,state,pin,contact) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
        //INSERT INTO doctor ('name','sex','specialized','incomeid','password','Type','house','place','district','state','pin','contact') 
