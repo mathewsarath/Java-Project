@@ -23,6 +23,7 @@ public class Administrator extends javax.swing.JFrame {
     /**
      * Creates new form Administrator
      */
+    Connection con;
     private String name,sex="M",specialized,house,place,district,state,Type,pin;
     private int contact,incomeId;
     private char[] password,confPassword;
@@ -70,6 +71,7 @@ public class Administrator extends javax.swing.JFrame {
         districtField = new javax.swing.JTextField();
         stateField = new javax.swing.JTextField();
         pinField = new javax.swing.JTextField();
+        id = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -175,6 +177,10 @@ public class Administrator extends javax.swing.JFrame {
 
         jLabel6.setText("Pin:");
 
+        id.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        id.setForeground(new java.awt.Color(1, 1, 1));
+        id.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -227,6 +233,10 @@ public class Administrator extends javax.swing.JFrame {
                         .addGap(134, 134, 134)
                         .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(334, 334, 334)
+                .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,7 +283,9 @@ public class Administrator extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -288,6 +300,7 @@ public class Administrator extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void incomeIdFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_incomeIdFieldActionPerformed
@@ -307,17 +320,7 @@ public class Administrator extends javax.swing.JFrame {
     }//GEN-LAST:event_nameFieldActionPerformed
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_submitButtonActionPerformed
-
-    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_resetButtonActionPerformed
-
-    private void submitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_submitButtonMouseClicked
-        // TODO add your handling code here:
-        
-        Connection con=DashBoard.conn;
+        con=DashBoard.conn;
         name=nameField.getText();
         password=passwordField.getPassword();
         confPassword=confPasswordField.getPassword();
@@ -328,9 +331,9 @@ public class Administrator extends javax.swing.JFrame {
         state=stateField.getText();
         pin=pinField.getText();
         sex=(String)genderBox.getSelectedItem();
-        if (sex=="Male")
+        if (sex.equals("Male"))
             sex="M";
-        else if (sex=="Female")
+        else if (sex.equals("Female"))
             sex="F";
         else
             sex="O";
@@ -339,19 +342,47 @@ public class Administrator extends javax.swing.JFrame {
         {
                  incomeId=Integer.parseInt(incomeIdField.getText());
                 contact=Integer.parseInt(contactField.getText());
+                if(Arrays.equals(password, confPassword))//Checks password and confirm password are same
+        {
+            
+                System.out.println(""+name+specialized+place+sex+password.toString()+confPassword.toString()+incomeId+district+state+pin+Type+contact+house);
+                dataBase();
+        }
+        else
+        {
+                        JOptionPane.showMessageDialog(passwordField, "Invalid Password");
+        }
          }
                 catch(NumberFormatException e)
         {
             JOptionPane.showMessageDialog(specialisationField, "Invalid income Id or Contact Number");
         }
-                if(Arrays.equals(password, confPassword))//Checks password and confirm password are same
-        {
-            System.out.println(""+name+specialized+place+sex+password.toString()+confPassword.toString()+incomeId+district+state+pin+Type+contact+house);
-        }
-        else
-        {
-                        JOptionPane.showMessageDialog(passwordField, "Invalid Password");
-        }//rootPane
+                
+        
+    }//GEN-LAST:event_submitButtonActionPerformed
+
+    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+        Reset();
+            
+    }//GEN-LAST:event_resetButtonActionPerformed
+    private void Reset(){
+        id.setText("");
+        specialisationField.setText("");
+        nameField.setText("");
+        incomeIdField.setText("");
+        passwordField.setText("");
+        confPasswordField.setText("");
+        homeField.setText("");
+        placeField.setText("");
+        districtField.setText("");
+        stateField.setText("");
+        pinField.setText("");
+        contactField.setText("");
+    }
+    private void submitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_submitButtonMouseClicked
+        // TODO add your handling code here:
+        
+        //rootPane
         /*try{
             if(name.isEmpty() || specialized.isEmpty() || password.length==0 || confPassword.length==0 || place.isEmpty() || district.isEmpty() || state.isEmpty() || pin.isEmpty()  );//Checks for Empty entries
             {
@@ -362,8 +393,11 @@ public class Administrator extends javax.swing.JFrame {
         catch (IllegalStateException e){
             JOptionPane.showMessageDialog(rootPane, e);
         }*/
-        
 
+        
+    }//GEN-LAST:event_submitButtonMouseClicked
+
+    private void dataBase(){
         try{
            String query = "INSERT INTO doctor (name,sex,specialized,incomeid,password,Type,house,place,district,state,pin,contact) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
        //INSERT INTO doctor ('name','sex','specialized','incomeid','password','Type','house','place','district','state','pin','contact') 
@@ -384,14 +418,26 @@ public class Administrator extends javax.swing.JFrame {
         //st.setInt(1,i);
          //System.out.print(st);
             int res = st.executeUpdate();
+            if(res>0){
+                String sql2="SELECT `AUTO_INCREMENT`\n" +
+            "FROM  INFORMATION_SCHEMA.TABLES\n" +
+            "WHERE TABLE_SCHEMA = 'Demo'\n" +
+            "AND   TABLE_NAME   = 'doctor';";
+            PreparedStatement stm=con.prepareStatement(sql2);
+            ResultSet rs=stm.executeQuery();
+            rs.next();
+            id.setText("ID :- "+String.valueOf(rs.getInt("AUTO_INCREMENT")-1));
+            
+            }else{
+                JOptionPane.showMessageDialog(id, "NOT ABLE TO ADD");
+            }
        
             //System.out.print(res);
         }
         catch(SQLException e){
-            System.out.print("Note Added");
+            System.out.print(e.getMessage());
         }
-    }//GEN-LAST:event_submitButtonMouseClicked
-
+    }
     private void homeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_homeFieldActionPerformed
@@ -440,6 +486,7 @@ public class Administrator extends javax.swing.JFrame {
     private javax.swing.JTextField districtField;
     private javax.swing.JComboBox<String> genderBox;
     private javax.swing.JTextField homeField;
+    private javax.swing.JLabel id;
     private javax.swing.JTextField incomeIdField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

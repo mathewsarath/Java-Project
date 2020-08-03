@@ -141,6 +141,7 @@ public class ManageDatabase extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void urlNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_urlNameActionPerformed

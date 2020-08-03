@@ -342,6 +342,7 @@ public class DashBoard extends javax.swing.JFrame {
         setJMenuBar(jMenuBar1);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     private void CreateLoginPage(String user){
         try{

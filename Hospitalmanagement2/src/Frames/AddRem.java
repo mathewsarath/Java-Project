@@ -50,6 +50,11 @@ public class AddRem extends javax.swing.JFrame {
         });
 
         RemoveButton.setText("Remove");
+        RemoveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoveButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -84,6 +89,7 @@ public class AddRem extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddButtonMouseClicked
@@ -95,6 +101,15 @@ public class AddRem extends javax.swing.JFrame {
         ap.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
         dispose();
     }//GEN-LAST:event_AddButtonMouseClicked
+
+    private void RemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveButtonActionPerformed
+        RemovePage ap=new RemovePage(Type);
+        ap.setVisible(true);
+        ap.pack();
+        ap.setLocationRelativeTo(null);
+        ap.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        dispose();
+    }//GEN-LAST:event_RemoveButtonActionPerformed
 
     /**
      * @param args the command line arguments

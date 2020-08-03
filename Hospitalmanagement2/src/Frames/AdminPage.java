@@ -145,6 +145,7 @@ public class AdminPage extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void MngDataBaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MngDataBaseMouseClicked

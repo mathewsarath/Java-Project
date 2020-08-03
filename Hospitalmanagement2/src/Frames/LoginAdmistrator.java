@@ -63,6 +63,7 @@ public class LoginAdmistrator extends javax.swing.JFrame {
         pWord = new javax.swing.JPasswordField();
         submitButton = new javax.swing.JButton();
         Label_Login = new javax.swing.JLabel();
+        wrong = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(89, 243, 29));
@@ -106,6 +107,10 @@ public class LoginAdmistrator extends javax.swing.JFrame {
         Label_Login.setForeground(new java.awt.Color(0, 0, 0));
         Label_Login.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        wrong.setFont(new java.awt.Font("Samanata", 2, 18)); // NOI18N
+        wrong.setForeground(new java.awt.Color(255, 0, 0));
+        wrong.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -113,22 +118,24 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(83, 83, 83)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(uName, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28)
-                                .addComponent(pWord, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(224, 224, 224)
                         .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(108, 108, 108)
-                        .addComponent(Label_Login, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Label_Login, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(83, 83, 83)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(wrong, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(uName, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(28, 28, 28)
+                                    .addComponent(pWord, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(112, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -146,13 +153,16 @@ public class LoginAdmistrator extends javax.swing.JFrame {
                     .addComponent(pWord, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(61, 61, 61)
                 .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(179, 179, 179))
+                .addGap(18, 18, 18)
+                .addComponent(wrong, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(122, 122, 122))
         );
 
         getContentPane().add(jPanel2);
         jPanel2.setBounds(0, 0, 580, 520);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void uNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uNameActionPerformed
@@ -185,6 +195,7 @@ public class LoginAdmistrator extends javax.swing.JFrame {
                 System.out.println(res);
                 gotoScreen(res);
             } else {
+                wrong.setText("Wrong Credentials");
                 System.out.println("nope");
             }
         } catch (SQLException e) {
@@ -200,6 +211,7 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             docLog.addWindowListener(new WindowClose());
             docLog.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
             db.setVisible(false);
+            this.dispose();
 
         }
         else if (loginName.equals("reception") && res.getString("Type").equals("reception"))
@@ -209,7 +221,7 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             form.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
             form.addWindowListener(new WindowClose());
             db.setVisible(false);
-
+            this.dispose();
         }
         else if (loginName.equals("nurse") && res.getString("Type").equals("nurse")){
             NursePortal np=new NursePortal(res);
@@ -217,6 +229,7 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             np.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
             np.addWindowListener(new WindowClose());
             db.setVisible(false);
+            this.dispose();
         }
         else if(loginName.equals("lab")&& res.getString("Type").equals("lab")){
             Lab lb=new Lab(res);
@@ -224,6 +237,7 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             lb.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
             lb.addWindowListener(new WindowClose());
             db.setVisible(false);
+            this.dispose();
         }
         else if(loginName.equals("pharmasist")&& res.getString("Type").equals("pharmasist")){
             NewJFrame5 ph=new NewJFrame5();
@@ -231,6 +245,7 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             ph.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
             ph.addWindowListener(new WindowClose());
             db.setVisible(false);
+            this.dispose();
         }
         else if(loginName.equals("Manage")){
             System.out.print(res.getString("Type"));
@@ -253,15 +268,15 @@ public class LoginAdmistrator extends javax.swing.JFrame {
                      mdb.pack();
                      mdb.setLocationRelativeTo(null);
                      mdb.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
-        
             }
+            this.dispose();
+            
         }
         catch(SQLException e){
             System.out.println("Invalid sql command");
                 }
-
         }
-        this.dispose();
+        
     }
 
     /**
@@ -310,5 +325,6 @@ public class LoginAdmistrator extends javax.swing.JFrame {
     private javax.swing.JPasswordField pWord;
     private javax.swing.JButton submitButton;
     private javax.swing.JTextField uName;
+    private javax.swing.JLabel wrong;
     // End of variables declaration//GEN-END:variables
 }
