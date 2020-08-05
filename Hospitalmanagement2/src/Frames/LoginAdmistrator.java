@@ -276,6 +276,9 @@ public class LoginAdmistrator extends javax.swing.JFrame {
             System.out.println("Invalid sql command");
                 }
         }
+        else{
+            wrong.setText("Wrong Department");
+        }
         
     }
 

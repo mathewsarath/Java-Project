@@ -27,6 +27,7 @@ public class DoctorPortal extends javax.swing.JFrame {
             jLabel2.setText(spec.toUpperCase());
             jLabel1.setText(new java.util.Date().toString());
             currPatient();
+            waitPat();
             //System.out.println("doctor portal work");
         } catch (SQLException e) {
             System.out.println("doctor portal");
@@ -64,6 +65,14 @@ public class DoctorPortal extends javax.swing.JFrame {
         pres = res;
         nextAvail();
     }
+    private void currPatient(String i)throws SQLException{
+        String query = "SELECT * from Patient INNER JOIN current ON Patient.PatientID=current.pid WHERE doctor_id="+String.valueOf(id)+" and PatientID="+i+" ORDER BY currentid LIMIT 1" ;
+        Connection con = DashBoard.conn;
+        Statement st=con.createStatement();
+        ResultSet res = st.executeQuery(query);
+        pres = res;
+        nextAvail();
+    }
 
     void nextAvail() throws SQLException {
         if (pres.next() ) {
@@ -82,6 +91,29 @@ public class DoctorPortal extends javax.swing.JFrame {
             new NewJFrame2(this).setVisible(true);
             
             
+        }
+    }
+    private void waitPat(){
+        String query = "select PatientID,Patientname from Patient inner join current on Patient.PatientID=current.pid where doctor_id=?";
+        String[] carr;
+        try {
+            int i = 1;
+            Connection con = DashBoard.conn;
+            PreparedStatement stm = con.prepareStatement(query);
+            stm.setInt(1,id);
+            ResultSet check = stm.executeQuery();
+            check.last();
+            carr = new String[check.getRow() + 1];
+            check.beforeFirst();
+            carr[0] = "- - -";
+            while (check.next()) {
+                carr[i] = check.getString("PatientID")+"-"+check.getString("Patientname");
+                i++;
+            }
+            waitpat.setModel(new javax.swing.DefaultComboBoxModel(carr));
+            stm.close();
+        } catch (SQLException e) {
+            System.out.println("error");
         }
     }
 
@@ -126,6 +158,8 @@ public class DoctorPortal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         docName = new javax.swing.JPanel();
         docNameLabel = new javax.swing.JLabel();
+        waitpat = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
         special = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -163,8 +197,6 @@ public class DoctorPortal extends javax.swing.JFrame {
         PrintButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
 
         jLabel4.setText("jLabel4");
 
@@ -184,16 +216,35 @@ public class DoctorPortal extends javax.swing.JFrame {
         docNameLabel.setAlignmentX(0.5F);
         docNameLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        waitpat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jButton1.setText("Refresh");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout docNameLayout = new javax.swing.GroupLayout(docName);
         docName.setLayout(docNameLayout);
         docNameLayout.setHorizontalGroup(
             docNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(docNameLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, docNameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(waitpat, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(128, 128, 128)
+                .addComponent(docNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
         docNameLayout.setVerticalGroup(
             docNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(docNameLayout.createSequentialGroup()
-                .addComponent(docNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(docNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(docNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(waitpat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -390,14 +441,14 @@ public class DoctorPortal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(doctorEditLayout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(doctorEditLayout.createSequentialGroup()
                                 .addComponent(diseaseVariable, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lab)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lab)
+                                .addGap(18, 18, 18)
                                 .addComponent(bp)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(doctorEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -437,7 +488,7 @@ public class DoctorPortal extends javax.swing.JFrame {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+            .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
             .addComponent(PrintButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(callButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -480,7 +531,7 @@ public class DoctorPortal extends javax.swing.JFrame {
                         .addComponent(ageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(heightLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(heightLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
                     .addComponent(wightLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(sexDisplayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(sexLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -489,7 +540,8 @@ public class DoctorPortal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(doctorEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -505,25 +557,13 @@ public class DoctorPortal extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1);
 
         jMenu1.setText("File");
-
-        jMenuItem1.setText("Select Patient");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem1);
-
         jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -531,9 +571,136 @@ public class DoctorPortal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel2ComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jLabel2ComponentHidden
+    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+
+        try {
+            Connection con = DashBoard.conn;
+            String disease = diseaseVariable.getText();
+            //        String description = jTextArea1.getText();
+            String notes = notesTextArea.getText();
+            boolean b=lab.isSelected();
+            int finish=0;
+            if(b){
+                String sql2="SELECT `AUTO_INCREMENT`\n" +
+                "FROM  INFORMATION_SCHEMA.TABLES\n" +
+                "WHERE TABLE_SCHEMA = 'Demo'\n" +
+                "AND   TABLE_NAME   = 'checkup';";
+                String labs="insert into labPatient(labid,cid) values(?,?)";
+                Statement st=con.createStatement();
+                PreparedStatement state=con.prepareStatement(labs);
+                ResultSet r=st.executeQuery(sql2);
+                System.out.println("lab");
+                if(r.next()){
+                    System.out.println("lab");
+                    String cid=r.getString("AUTO_INCREMENT");
+                    if(bp.isSelected()){
+                        state.setInt(1,1);
+
+                        System.out.println("lab");
+
+                        state.setString(2, cid);
+                        int i=state.executeUpdate();
+                        if(i>0){
+                            System.out.println("success");
+                        }
+                    }
+                    if(blood.isSelected()){
+                        state.setInt(1,2);
+                        state.setString(2, cid);
+                        int i=state.executeUpdate();
+                        if(i>0){
+                            System.out.println("success");
+                        }
+                    }
+                    if(xray.isSelected()){
+                        state.setInt(1,4);
+                        state.setString(2, cid);
+                        int i=state.executeUpdate();
+                        if(i>0){
+                            System.out.println("success");
+                        }
+                    }
+                    if(mri.isSelected()){
+                        state.setInt(1,5);
+                        state.setString(2, cid);
+                        int i=state.executeUpdate();
+                        if(i>0){
+                            System.out.println("success");
+                        }
+                    }
+                    if(urine.isSelected()){
+                        state.setInt(1,6);
+                        state.setString(2, cid);
+                        int i=state.executeUpdate();
+                        if(i>0){
+                            System.out.println("success");
+                        }
+                    }
+                }
+            }else{
+                finish=1;
+            }
+
+            String q2="insert into checkup(cid,date,pid,labfinish) values(null,?,?,?)";
+            PreparedStatement st=con.prepareStatement(q2);
+            st.setString(1,jLabel1.getText());
+            st.setInt(2,pres.getInt("PatientID"));
+            st.setInt(3, finish);
+            st.executeUpdate();
+            System.out.println("hello");
+
+            String q3="delete from current where pid=?";
+            PreparedStatement s=con.prepareStatement(q3);
+            s.setString(1,pres.getString("PatientID"));
+            System.out.println("hello");
+            int i=s.executeUpdate();
+            if(i>0){
+                s.close();
+            }
+
+            String query = "UPDATE Patient SET  disease=?,notes=?  WHERE PatientID=?;";
+            PreparedStatement stm=con.prepareStatement(query);
+            stm.setString(1,disease);
+            //        stm.setString(2,description);
+            stm.setString(2,notes);
+            stm.setInt(3,pres.getInt("PatientID"));
+            stm.executeUpdate();
+
+            System.out.println("hello");
+            st.close();
+            stm.close();
+            currPatient();
+            waitPat();
+            jLabel1.setText(new java.util.Date().toString());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void labActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_labActionPerformed
+        if(lab.isSelected()){
+            labSet();
+        }
+        else{
+            labReset();
+        }
+    }//GEN-LAST:event_labActionPerformed
+
+    private void urineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_urineActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel2ComponentHidden
+    }//GEN-LAST:event_urineActionPerformed
+
+    private void bloodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bloodActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bloodActionPerformed
+
+    private void xrayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xrayActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_xrayActionPerformed
+
+    private void bpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bpActionPerformed
 
     private void checkupItemboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkupItemboxActionPerformed
 
@@ -552,149 +719,19 @@ public class DoctorPortal extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.out.print("dberror");
         }
-
     }//GEN-LAST:event_checkupItemboxActionPerformed
 
     private void checkupItemboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkupItemboxItemStateChanged
         //        System.out.println(checkupItembox.getSelectedItem());
     }//GEN-LAST:event_checkupItemboxItemStateChanged
 
-    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
-        
-        try {
-        Connection con = DashBoard.conn;
-        String disease = diseaseVariable.getText();
-//        String description = jTextArea1.getText();
-        String notes = notesTextArea.getText();
-        boolean b=lab.isSelected();
-        int finish=0;
-        if(b){
-            String sql2="SELECT `AUTO_INCREMENT`\n" +
-            "FROM  INFORMATION_SCHEMA.TABLES\n" +
-            "WHERE TABLE_SCHEMA = 'Demo'\n" +
-            "AND   TABLE_NAME   = 'checkup';";
-            String labs="insert into labPatient(labid,cid) values(?,?)";
-            Statement st=con.createStatement();
-            PreparedStatement state=con.prepareStatement(labs);
-            ResultSet r=st.executeQuery(sql2);
-            System.out.println("lab");
-            if(r.next()){
-                System.out.println("lab");
-                String cid=r.getString("AUTO_INCREMENT");
-                if(bp.isSelected()){
-                    state.setInt(1,1);
-                    
-                    System.out.println("lab");
-                    
-                    state.setString(2, cid);
-                    int i=state.executeUpdate();
-                    if(i>0){
-                        System.out.println("success");
-                    }
-                }
-                if(blood.isSelected()){
-                    state.setInt(1,2);
-                    state.setString(2, cid);
-                    int i=state.executeUpdate();
-                    if(i>0){
-                        System.out.println("success");
-                    }
-                }
-                if(xray.isSelected()){
-                    state.setInt(1,4);
-                    state.setString(2, cid);
-                    int i=state.executeUpdate();
-                    if(i>0){
-                        System.out.println("success");
-                    }
-                }
-                if(mri.isSelected()){
-                    state.setInt(1,5);
-                    state.setString(2, cid);
-                    int i=state.executeUpdate();
-                    if(i>0){
-                        System.out.println("success");
-                    }
-                }
-                if(urine.isSelected()){
-                    state.setInt(1,6);
-                    state.setString(2, cid);
-                    int i=state.executeUpdate();
-                    if(i>0){
-                        System.out.println("success");
-                    }
-                }
-            }
-        }else{
-            finish=1;
-        }
-        
-        
-        
-                
-        String q2="insert into checkup(cid,date,pid,labfinish) values(null,?,?,?)";
-        PreparedStatement st=con.prepareStatement(q2);
-        st.setString(1,jLabel1.getText());
-        st.setInt(2,pres.getInt("PatientID"));
-        st.setInt(3, finish);
-        st.executeUpdate();
-        System.out.println("hello");
-
-        String q3="delete from current where pid=?";
-        PreparedStatement s=con.prepareStatement(q3);
-        s.setString(1,pres.getString("PatientID"));
-        System.out.println("hello");
-        int i=s.executeUpdate();
-        if(i>0){
-        s.close();
-        }
-
-        String query = "UPDATE Patient SET  disease=?,notes=?  WHERE PatientID=?;";
-        PreparedStatement stm=con.prepareStatement(query);
-        stm.setString(1,disease);
-//        stm.setString(2,description);
-        stm.setString(2,notes);
-        stm.setInt(3,pres.getInt("PatientID"));
-        stm.executeUpdate();
-        
-        System.out.println("hello");
-        st.close();
-        stm.close();
-        currPatient();
-        jLabel1.setText(new java.util.Date().toString());
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }//GEN-LAST:event_nextButtonActionPerformed
-
-    private void urineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_urineActionPerformed
+    private void jLabel2ComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jLabel2ComponentHidden
         // TODO add your handling code here:
-    }//GEN-LAST:event_urineActionPerformed
+    }//GEN-LAST:event_jLabel2ComponentHidden
 
-    private void xrayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xrayActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_xrayActionPerformed
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void bloodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bloodActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bloodActionPerformed
-
-    private void bpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bpActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bpActionPerformed
-
-    private void labActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_labActionPerformed
-        if(lab.isSelected()){
-            labSet();
-        }
-        else{
-            labReset();
-        }
-    }//GEN-LAST:event_labActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        waitPat();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -748,15 +785,14 @@ public class DoctorPortal extends javax.swing.JFrame {
     private javax.swing.JPanel doctorEdit;
     private javax.swing.JLabel heightDisplayLabel;
     private javax.swing.JLabel heightLabel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -774,6 +810,7 @@ public class DoctorPortal extends javax.swing.JFrame {
     private javax.swing.JLabel sexLabel;
     private javax.swing.JPanel special;
     private javax.swing.JCheckBox urine;
+    private javax.swing.JComboBox<String> waitpat;
     private javax.swing.JLabel weightDisplayLabel;
     private javax.swing.JLabel wightLabel;
     private javax.swing.JCheckBox xray;
