@@ -8,6 +8,7 @@ package Frames;
 //import hospitalmanagement2.*;
 import java.sql.*;
 import java.awt.AWTEvent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -182,7 +183,7 @@ public class LoginAdmistrator extends javax.swing.JFrame {
     }//GEN-LAST:event_submitButtonMouseClicked
     private void loginDatabase() {
         String tableName="doctor";
-        String query = "select * from " + tableName+ " where Did=? and password=? ";//and Type=?
+        String query = "select * from " + tableName+ " where Did=? and password=? and Permission=1";//and Type=?
         Connection con = DashBoard.conn;
         try {
             PreparedStatement prepare = con.prepareStatement(query);
@@ -250,7 +251,7 @@ public class LoginAdmistrator extends javax.swing.JFrame {
         else if(loginName.equals("Manage")){
             System.out.print(res.getString("Type"));
         try {
-            if(res.getString("Type").equals("Admin")){
+            if(res.getString("Type").equals("admin")){
                     AdminPage admin = new AdminPage();
                     admin.setVisible(true);
                     admin.pack();
@@ -258,18 +259,20 @@ public class LoginAdmistrator extends javax.swing.JFrame {
                     admin.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
                     admin.addWindowListener(new WindowClose());
                     db.setVisible(false);
-                    
+                    this.dispose();
 
                  }
             else{
-                
-                     ManageDatabase mdb = new ManageDatabase();
+                    wrong.setText("Wrong Department");
+                   
+                   // JOptionPane.showMessageDialog( this, "Invalid User Id and Password","Error", JOptionPane.ERROR_MESSAGE);
+                    /* ManageDatabase mdb = new ManageDatabase();
                      mdb.setVisible(true);
                      mdb.pack();
                      mdb.setLocationRelativeTo(null);
-                     mdb.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+                     mdb.setDefaultCloseOperation();*/
             }
-            this.dispose();
+
             
         }
         catch(SQLException e){

@@ -160,6 +160,7 @@ public class ManageDatabase extends javax.swing.JFrame {
        DocConnect.connect();
 //       Connection conn=DocConnect.conn;
        System.out.println("Connected");
+       this.dispose();
     }
     catch(SQLException e){
         System.out.println(e);
