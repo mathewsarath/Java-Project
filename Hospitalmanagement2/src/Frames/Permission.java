@@ -30,13 +30,19 @@ public class Permission extends javax.swing.JFrame {
         this.Type=Type;
 
     }
+    private void showMsg(String msg) {
+        JOptionPane.showMessageDialog( this, msg,"Error", JOptionPane.ERROR_MESSAGE);
+    }
     private void executeSql(String sql,String msg) throws SQLException{
         Connection con =DashBoard.conn;
         Statement st=con.createStatement();
         int r=-1;
         r=st.executeUpdate(sql);
-        if (r != -1)
-            JOptionPane.showMessageDialog( this, msg,"Error", JOptionPane.ERROR_MESSAGE);
+        if (r != -1 )
+            if(msg.isEmpty())
+                return;
+            else
+                showMsg(msg);
         }
     
 
@@ -115,6 +121,7 @@ public class Permission extends javax.swing.JFrame {
         try{
         
         executeSql(sql,msg);
+        executeSql("UPDATE Token SET token=0;","");
         }
         catch(SQLException e)
         {

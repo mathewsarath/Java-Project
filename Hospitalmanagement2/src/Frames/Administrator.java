@@ -418,6 +418,7 @@ public class Administrator extends javax.swing.JFrame {
         //st.setInt(1,i);
          //System.out.print(st);
             int res = st.executeUpdate();
+
             if(res>0){
                 String sql2="SELECT `AUTO_INCREMENT`\n" +
             "FROM  INFORMATION_SCHEMA.TABLES\n" +
@@ -427,6 +428,20 @@ public class Administrator extends javax.swing.JFrame {
             ResultSet rs=stm.executeQuery();
             rs.next();
             id.setText("ID :- "+String.valueOf(rs.getInt("AUTO_INCREMENT")-1));
+            if(Type=="doctor"){
+                String q2="INSERT INTO Token (Docid) SELECT Did FROM doctor WHERE name=? AND contact=?";
+                try{
+                PreparedStatement st2=con.prepareStatement(q2);
+                st2.setString(1, name);
+                st2.setInt(2, contact);
+                int rs2=st2.executeUpdate();
+                }
+                    catch (SQLException e){
+                            
+                            }
+                }
+            
+            
             
             }else{
                 JOptionPane.showMessageDialog(id, "NOT ABLE TO ADD");
