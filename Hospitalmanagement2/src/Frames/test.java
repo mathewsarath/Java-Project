@@ -15,26 +15,19 @@ import javax.swing.*;
 public class test {
     static private void currPatient(int i,Connection c) throws SQLException {
         i++;
-        int id=1;
-       String query = "INSERT INTO doctor (name,sex,specialized,incomeid,password,Type,house,place,district,state,pin,contact) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+        String name="ram";
+        int contact=123456789;
+        String q2="INSERT INTO Token (Docid) SELECT Did FROM doctor WHERE name=? AND contact=?";
+                PreparedStatement st2=c.prepareStatement(q2);
+                st2.setString(1, name);
+                st2.setInt(2, contact);
+                System.out.print(st2);
+                int rs2=st2.executeUpdate();
        //INSERT INTO doctor ('name','sex','specialized','incomeid','password','Type','house','place','district','state','pin','contact') 
        //VALUES ('Vijay','M','Ortho',1234,'1324','doctor','plakkav','Malappuram','Malappuram','Kerala','673117',1234234511);
-        PreparedStatement st=c.prepareStatement(query);
-        st.setString(1,"Vijay");
-        st.setString(2,"M");
-        st.setString(3,"Ortho");
-        st.setInt(4,1234);
-        st.setString(5,"1324");
-        st.setString(6,"doctor");
-        st.setString(7,"plakkav");
-        st.setString(8,"Malappuram");
-        st.setString(9,"Malappuram");
-        st.setString(10,"Kerala");
-        st.setString(11,"673117");
-        st.setInt(12,1234234511);
-        //st.setInt(1,i);
+        Statement st=c.createStatement();
          System.out.print(st);
-       int res = st.executeUpdate();
+       int res = st.executeUpdate(q2);
        
        System.out.print(res);
         //pres = res;
@@ -52,7 +45,7 @@ public class test {
     }
         catch(SQLException e)
         {
-            System.out.print("hai");
+            System.out.print(e);
         }
     }
 

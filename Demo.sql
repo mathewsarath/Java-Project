@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 29, 2020 at 09:48 PM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.2
+-- Generation Time: Aug 06, 2020 at 02:28 PM
+-- Server version: 10.4.13-MariaDB
+-- PHP Version: 7.2.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -102,19 +101,21 @@ CREATE TABLE `doctor` (
   `district` varchar(20) NOT NULL,
   `state` varchar(20) NOT NULL,
   `pin` varchar(7) NOT NULL,
-  `contact` int(10) NOT NULL
+  `contact` int(10) NOT NULL,
+  `Permission` bit(1) NOT NULL DEFAULT b'0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `doctor`
 --
 
-INSERT INTO `doctor` (`Did`, `name`, `sex`, `specialized`, `incomeid`, `password`, `Type`, `house`, `place`, `district`, `state`, `pin`, `contact`) VALUES
-(1, 'ram', 'male', 'dermatology', 23, 'hello', 'doctor', 'punjabi', 'karikode', 'kollam', 'kerala', '12345', 123456789),
-(2, 'raju', 'male', 'cardiac', 43, 'qwerty', 'doctor', 'melepura', 'ottapalam', 'kollam', 'kerala', '45893', 934678293),
-(3, 'david', 'M', '', 12000, '1234', 'reception', 'kaithapura', 'keezgmad', 'kollam', 'kerala', '567893', 123456789),
-(13, 'indu', 'F', 'gyno', 12345, '123', 'nurse', 'kalaparamb', 'karikode', 'kollam', 'kerala', '3456789', 987654321),
-(17, 'Hannah', 'f', NULL, 2009, '13rw', 'pharmasist', 'blubber house', 'kodungalloor', 'ernakulam', 'kerala', '650897', 1123765456);
+INSERT INTO `doctor` (`Did`, `name`, `sex`, `specialized`, `incomeid`, `password`, `Type`, `house`, `place`, `district`, `state`, `pin`, `contact`, `Permission`) VALUES
+(1, 'ram', 'male', 'dermatology', 23, 'hello', 'doctor', 'punjabi', 'karikode', 'kollam', 'kerala', '12345', 123456789, b'1'),
+(2, 'raju', 'male', 'cardiac', 43, 'qwerty', 'doctor', 'melepura', 'ottapalam', 'kollam', 'kerala', '45893', 934678293, b'1'),
+(3, 'david', 'M', '', 12000, '1234', 'reception', 'kaithapura', 'keezgmad', 'kollam', 'kerala', '567893', 123456789, b'1'),
+(13, 'indu', 'F', 'gyno', 12345, '123', 'nurse', 'kalaparamb', 'karikode', 'kollam', 'kerala', '3456789', 987654321, b'1'),
+(17, 'Hannah', 'f', NULL, 2009, '13rw', 'pharmasist', 'blubber house', 'kodungalloor', 'ernakulam', 'kerala', '650897', 1123765456, b'1'),
+(100, 'Biju', 'M', 'Admin', 100, '100', 'admin', 'palakkal', 'karikkod', 'Kollam', 'kerala', '673967', 1234512345, b'1');
 
 -- --------------------------------------------------------
 
@@ -338,7 +339,7 @@ ALTER TABLE `current`
 -- AUTO_INCREMENT for table `doctor`
 --
 ALTER TABLE `doctor`
-  MODIFY `Did` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `Did` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT for table `Lab`

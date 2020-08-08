@@ -65,6 +65,11 @@ public class AdminPage extends javax.swing.JFrame {
                 MngDataBaseMouseClicked(evt);
             }
         });
+        MngDataBase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MngDataBaseActionPerformed(evt);
+            }
+        });
 
         MngCrisis.setText("Manage Crisis");
 
@@ -151,7 +156,7 @@ public class AdminPage extends javax.swing.JFrame {
     private void MngDataBaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MngDataBaseMouseClicked
         // TODO add your handling code here:
         try{
-        ManageDatabase db = new ManageDatabase();
+        Permission db = new Permission();
         db.setVisible(true);
         db.pack();
         db.setLocationRelativeTo(null);
@@ -182,6 +187,10 @@ public class AdminPage extends javax.swing.JFrame {
         ar.setLocationRelativeTo(null);
         ar.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_MngNurseMouseClicked
+
+    private void MngDataBaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MngDataBaseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MngDataBaseActionPerformed
 
     /**
      * @param args the command line arguments
