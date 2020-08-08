@@ -217,6 +217,11 @@ public class DoctorPortal extends javax.swing.JFrame {
         docNameLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         waitpat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        waitpat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                waitpatActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Refresh");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -732,6 +737,10 @@ public class DoctorPortal extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         waitPat();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void waitpatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_waitpatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_waitpatActionPerformed
 
     /**
      * @param args the command line arguments

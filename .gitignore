@@ -1,3 +1,6 @@
+/java/node_modules/
+/java/node_modules
+/java/package-lock.json
 
 /Hospitalmanagement2/nbproject/
 /HospitalManagement/build/
